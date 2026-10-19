@@ -54,7 +54,7 @@ Nothing in DNS is changed without the owner's go-ahead.
 - [ ] `curl -I http://bakedinweston.com` → 301 to `https://bakedinweston.com/`;
       `curl -I https://www.bakedinweston.com` → 301 to `https://bakedinweston.com/`.
 - [ ] All pages open: `/`, `/all-products`, `/faq`, `/privacy-policy`, `/terms-and-conditions`, `/return-policy`.
-- [ ] Old URLs: `/shop?olsPage=cart`, `/m/account` → 301 to `/`; unknown page → styled 404.
+- [ ] Old URLs `/shop?olsPage=cart`, `/m/account` and unknown pages → styled 404 (no redirects, owner's decision).
 - [ ] Storefront buttons open `app.simply-bread.co/bakedinweston`.
 - [ ] **Email:** send a message from an outside address to `inna@` and `sales@bakedinweston.com` and reply from them — both directions work.
 - [ ] Contact form on the live site → message arrives in `inna@bakedinweston.com`.

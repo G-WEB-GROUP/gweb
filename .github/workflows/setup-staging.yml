@@ -1,0 +1,46 @@
+# One-time setup of the staging site on the shared server (run by hand).
+# Actions -> "Setup staging server" -> Run workflow.
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   STAGING_HOST      server name or IP (e.g. horpyna.g-web.group)
+#   STAGING_USER      SSH user (root or a user with sudo)
+#   STAGING_PASSWORD  SSH password of that user (also used for sudo)
+# What it changes on the server: see scripts/server/setup-staging.sh (other sites are not touched).
+name: Setup staging server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HOST: ${{ secrets.STAGING_HOST }}
+      USER_NAME: ${{ secrets.STAGING_USER }}
+      SSHPASS: ${{ secrets.STAGING_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check secrets
+        run: |
+          for v in HOST USER_NAME SSHPASS; do
+            [ -n "${!v}" ] || { echo "::error::Secret for $v is missing (STAGING_HOST / STAGING_USER / STAGING_PASSWORD)"; exit 1; }
+          done
+
+      - name: Install sshpass
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+
+      - name: Upload setup bundle
+        run: |
+          mkdir -p bundle && cp -r deploy server scripts/server/setup-staging.sh bundle/ && rm -rf bundle/server/node_modules
+          tar czf bundle.tgz -C bundle .
+          sshpass -e scp -o StrictHostKeyChecking=accept-new bundle.tgz "$USER_NAME@$HOST:/tmp/biw-setup.tgz"
+
+      - name: Run setup on the server
+        run: |
+          sshpass -e ssh -o StrictHostKeyChecking=accept-new "$USER_NAME@$HOST" \
+            "set -e; rm -rf /tmp/biw-setup && mkdir -p /tmp/biw-setup && tar xzf /tmp/biw-setup.tgz -C /tmp/biw-setup && rm /tmp/biw-setup.tgz; \
+             if [ \"\$(id -u)\" = 0 ]; then DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
+             else sudo -S -p '' env DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; fi; \
+             rm -rf /tmp/biw-setup" <<< "$SSHPASS"

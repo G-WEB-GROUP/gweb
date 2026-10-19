@@ -13,7 +13,10 @@ set -euo pipefail
 DEPLOY_USER="${DEPLOY_USER:-deploy}"
 SITE_DIR="${SITE_DIR:-/var/www/bakedinweston}"
 APP_DIR="${APP_DIR:-/opt/bakedinweston-contact}"
-SSH="ssh -o StrictHostKeyChecking=accept-new ${DEPLOY_USER}@${DEPLOY_HOST}"
+# Password login (CI): set SSHPASS and SSH_WRAP="sshpass -e". Key login: leave both empty.
+SSH_BASE="${SSH_WRAP:-} ssh -o StrictHostKeyChecking=accept-new"
+SSH="$SSH_BASE ${DEPLOY_USER}@${DEPLOY_HOST}"
+SUDO=$([ "$DEPLOY_USER" = root ] && echo "" || echo "sudo")
 cd "$(dirname "$0")/.."
 
 if [[ "${1:-}" == "--rollback" ]]; then
@@ -34,7 +37,7 @@ echo "==> Upload release $REL"
 $SSH "mkdir -p $SITE_DIR/releases/$REL"
 LAST=$($SSH "readlink -f $SITE_DIR/current || true")
 # Reuse unchanged files from the current release to make uploads fast
-rsync -az --delete ${LAST:+--link-dest="$LAST"} dist/ "${DEPLOY_USER}@${DEPLOY_HOST}:$SITE_DIR/releases/$REL/"
+rsync -az --delete -e "$SSH_BASE" ${LAST:+--link-dest="$LAST"} dist/ "${DEPLOY_USER}@${DEPLOY_HOST}:$SITE_DIR/releases/$REL/"
 
 echo "==> Switch"
 $SSH "ln -sfn $SITE_DIR/releases/$REL $SITE_DIR/current.tmp && mv -Tf $SITE_DIR/current.tmp $SITE_DIR/current && \
@@ -42,8 +45,8 @@ $SSH "ln -sfn $SITE_DIR/releases/$REL $SITE_DIR/current.tmp && mv -Tf $SITE_DIR/
 
 if [[ "${1:-}" != "--site" ]]; then
   echo "==> Contact service"
-  rsync -az --delete --exclude node_modules --exclude test.mjs server/ "${DEPLOY_USER}@${DEPLOY_HOST}:$APP_DIR/"
-  $SSH "cd $APP_DIR && npm ci --omit=dev --no-audit --no-fund && sudo systemctl restart bakedinweston-contact"
+  rsync -az --delete -e "$SSH_BASE" --exclude node_modules --exclude test.mjs server/ "${DEPLOY_USER}@${DEPLOY_HOST}:$APP_DIR/"
+  $SSH "cd $APP_DIR && npm ci --omit=dev --no-audit --no-fund && $SUDO systemctl restart bakedinweston-contact"
 fi
 
 echo "==> Done: release $REL is live on $DEPLOY_HOST"

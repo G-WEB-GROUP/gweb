@@ -60,7 +60,7 @@ npm run build      # -> dist/
   banner and form.
 - **URLs are the same as on GoDaddy**: `/`, `/all-products`, `/faq`, `/privacy-policy`,
   `/terms-and-conditions`, `/return-policy` (built as `faq.html` etc., served by nginx without `.html`).
-  `/faq.html` and `/faq/` redirect to `/faq`. Old GoDaddy store pages `/shop*` and `/m/*` redirect to `/`.
+  `/faq.html` and `/faq/` redirect to `/faq`. Old GoDaddy store pages `/shop*` and `/m/*` show the 404 page (redirects prepared but off, see `bakedinweston-site.inc`).
 - **SEO:** title/description from the old site, canonical, Open Graph/Twitter tags, `google-site-verification`
   on every page, `sitemap.xml`, `robots.txt`, JSON-LD `Bakery` on `/` and `FAQPage` on `/faq`.
 - **Images:** AVIF + WebP + JPEG with `srcset`; lazy-loaded except the hero.
@@ -126,15 +126,16 @@ whose `og:url` has no `www`).
 ## Staging (temporary preview on a shared server)
 
 Preview at **https://bakedinweston.g-web.group** on the server that hosts horpyna.g-web.group.
+Everything runs from GitHub Actions; nothing has to be typed on the server.
 
-1. DNS of `g-web.group`: add `A  bakedinweston  <server IP>` (or `CNAME  bakedinweston  horpyna.g-web.group.`).
-   `bakedinweston.com` DNS is not touched.
-2. Server, once: run the "Server setup" commands above, but enable `deploy/nginx/bakedinweston-staging.conf`
-   instead of the test config (it is not `default_server`, other sites stay as they are). Check that port 8787
-   is free (`ss -ltnp | grep 8787`). Get the certificate as described at the top of that file.
-3. GitHub → Settings → Secrets and variables → Actions: `STAGING_HOST`, `STAGING_USER`, `STAGING_SSH_KEY`.
-4. Every push to the work branch deploys the site (`.github/workflows/deploy-staging.yml`); "Run workflow"
-   with `all` also updates the contact form service.
+1. DNS of `g-web.group`: `A  bakedinweston  <server IP>` (done). `bakedinweston.com` DNS is not touched.
+2. GitHub → Settings → Secrets and variables → Actions → New repository secret:
+   `STAGING_HOST`, `STAGING_USER`, `STAGING_PASSWORD` (or `STAGING_SSH_KEY` instead of the password).
+3. Actions → **Setup staging server** → Run workflow (once). It runs `scripts/server/setup-staging.sh` with sudo:
+   folders, nginx vhost (not `default_server`; checked with `nginx -t` and removed again if the check fails),
+   Let's Encrypt certificate, contact form service on port 8787 (log-only until SMTP is set in
+   `/etc/bakedinweston/contact.env`). Other sites on the server are not changed. Safe to run again.
+4. Actions → **Deploy staging** → Run workflow → `all`. After that every push to the work branch deploys the site.
 
 ## DNS switch
 

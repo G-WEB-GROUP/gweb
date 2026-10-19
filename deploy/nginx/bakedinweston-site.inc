@@ -22,10 +22,12 @@ include snippets/bakedinweston-headers.inc;
 
 error_page 404 /404.html;
 
-# --- Old GoDaddy store/account pages (not rebuilt) ---
-location ^~ /shop { return 301 /; }
-location = /m      { return 301 /; }
-location ^~ /m/    { return 301 /; }
+# --- Old GoDaddy store/account pages (/shop*, /m/*) ---
+# No redirects for now (owner's decision): they return the 404 page.
+# To redirect later, uncomment:
+# location ^~ /shop { return 301 /; }
+# location = /m      { return 301 /; }
+# location ^~ /m/    { return 301 /; }
 
 # --- Clean URLs: /faq serves faq.html; /faq.html and /faq/ redirect to /faq ---
 location ~ ^/(?<biw_page>.+)\.html$ {

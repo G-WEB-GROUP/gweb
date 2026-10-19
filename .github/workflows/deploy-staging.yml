@@ -4,7 +4,8 @@
 # Repository secrets (Settings -> Secrets and variables -> Actions):
 #   STAGING_HOST     server IP or name (e.g. horpyna.g-web.group)
 #   STAGING_USER     SSH user with write access to /var/www/bakedinweston and /opt/bakedinweston-contact
-#   STAGING_SSH_KEY  private key for that user (the public key goes to ~/.ssh/authorized_keys on the server)
+#   STAGING_PASSWORD SSH password of that user
+#   STAGING_SSH_KEY  (optional, instead of the password) private key; public key in ~/.ssh/authorized_keys
 name: Deploy staging
 
 on:
@@ -34,22 +35,32 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: SSH key
+      - name: SSH login
+        env:
+          KEY: ${{ secrets.STAGING_SSH_KEY }}
+          PASS: ${{ secrets.STAGING_PASSWORD }}
         run: |
           install -m 700 -d ~/.ssh
-          echo "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/id_deploy
-          chmod 600 ~/.ssh/id_deploy
-          printf 'Host *\n  IdentityFile ~/.ssh/id_deploy\n  StrictHostKeyChecking accept-new\n' > ~/.ssh/config
+          printf 'Host *\n  StrictHostKeyChecking accept-new\n' > ~/.ssh/config
+          if [ -n "$KEY" ]; then
+            printf '%s\n' "$KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+            printf '  IdentityFile ~/.ssh/id_deploy\n' >> ~/.ssh/config
+          elif [ -n "$PASS" ]; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+          fi
 
       - name: Build and deploy
         env:
           DEPLOY_HOST: ${{ secrets.STAGING_HOST }}
           DEPLOY_USER: ${{ secrets.STAGING_USER }}
+          SSHPASS: ${{ secrets.STAGING_PASSWORD }}
+          HAS_KEY: ${{ secrets.STAGING_SSH_KEY != '' }}
         run: |
           if [ -z "$DEPLOY_HOST" ]; then
             echo "::notice::STAGING_HOST secret is not set yet - skipping deploy"
             exit 0
           fi
+          if [ "$HAS_KEY" != "true" ]; then export SSH_WRAP="sshpass -e"; fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.what }}" = "all" ]; then
             ./scripts/deploy.sh
           else
