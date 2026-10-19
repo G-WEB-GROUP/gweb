@@ -1,0 +1,35 @@
+---
+// Title band for inner pages: eyebrow, H1, optional intro.
+interface Props {
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+}
+const { title, eyebrow, intro } = Astro.props;
+---
+
+<section class="page-head">
+  <div class="wrap">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {intro && <p class="lead">{intro}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-head {
+    padding-block: clamp(36px, 6vw, 80px) clamp(28px, 4vw, 48px);
+    background:
+      radial-gradient(900px 360px at 90% 0%, var(--accent-soft), transparent 60%),
+      var(--cream);
+    border-bottom: 1px solid var(--cream-2);
+  }
+  h1 {
+    max-width: 22ch;
+  }
+  .lead {
+    max-width: 60ch;
+    margin-bottom: 0;
+  }
+</style>

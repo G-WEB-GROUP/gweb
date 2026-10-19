@@ -6,6 +6,9 @@ import CookieBanner from '../components/CookieBanner.astro';
 import { SITE } from '../lib/site';
 import { photo } from '../lib/images';
 import { getImage } from 'astro:assets';
+// Preload the two Latin font files so text is drawn in the final font sooner (less layout shift).
+import sansFont from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
+import serifFont from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -14,7 +17,7 @@ interface Props {
   ogDescription?: string;
   ogImageFile?: string;
   jsonLd?: object[];
-  preloadImage?: string;
+  noindex?: boolean;
 }
 const {
   title,
@@ -23,6 +26,7 @@ const {
   ogDescription = SITE.ogDescription,
   ogImageFile = 'unnamed-3',
   jsonLd = [],
+  noindex = false,
 } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
@@ -38,13 +42,17 @@ const ogUrl = og ? new URL(og.src, SITE.url).href : undefined;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={sansFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={SITE.name} />
     <meta name="theme-color" content={SITE.themeColor} />
     <meta name="google-site-verification" content={SITE.googleSiteVerification} />
-    <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:url" content={canonical} />

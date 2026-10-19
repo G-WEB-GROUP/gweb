@@ -1,6 +1,6 @@
 ---
 path: "/terms-and-conditions"
-title: "Baked in Weston"
+title: "Terms and Conditions - Baked in Weston"
 description: "Weston bakery offering artisanal sourdough breads, sourdough bagels, and vegan bread. Freshly baked goods delivered to your door."
 h1: "Terms and Conditions"
 ---

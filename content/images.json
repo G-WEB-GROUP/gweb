@@ -13,8 +13,7 @@
       "file": "unnamed-3.jpg",
       "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring.",
       "usedIn": [
-        "home: hero + og:image",
-        "products: Whole Wheat Sourdough"
+        "home: hero + og:image"
       ]
     },
     {
@@ -103,20 +102,19 @@
       ]
     },
     {
-      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
-      "file": "cinnamon-raisin.jpg",
-      "alt": "Close-up of a freshly baked artisan sourdough bread with a decorative crust.",
-      "usedIn": [
-        "products: Walnut Cranberry Sourdough",
-        "products: Cinnamon Raisin Sourdough"
-      ]
-    },
-    {
       "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/double%20chocolate%20espresso.jpg",
       "file": "double-chocolate-espresso.jpg",
       "alt": "Double Chocolate Espresso Sourdough",
       "usedIn": [
         "products: Double Chocolate Espresso Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
+      "file": "cinnamon-raisin.jpg",
+      "alt": "Cinnamon Raisin Sourdough",
+      "usedIn": [
+        "products: Cinnamon Raisin Sourdough"
       ]
     },
     {

@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import logo from '../assets/logo.png';
 import { NAV, STOREFRONT } from '../lib/site';
 const path = Astro.url.pathname.replace(/\.html$/, '') || '/';
 ---
@@ -7,9 +9,7 @@ const path = Astro.url.pathname.replace(/\.html$/, '') || '/';
 <header class="site-header" data-header>
   <div class="wrap bar">
     <a href="/" class="logo" aria-label="Baked in Weston — home">
-      <span class="logo-mark" aria-hidden="true">
-        <Icon name="wheat" />
-      </span>
+      <Image src={logo} alt="" width={56} height={56} densities={[1, 2]} class="logo-mark" loading="eager" />
       <span class="logo-text">Baked <em>in</em> Weston</span>
     </a>
 
@@ -70,18 +70,10 @@ const path = Astro.url.pathname.replace(/\.html$/, '') || '/';
     text-decoration: none;
     margin-right: auto;
   }
-  .logo-mark {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--ink);
-  }
-  .logo-mark :global(svg) {
-    width: 24px;
-    height: 24px;
+  .logo :global(.logo-mark) {
+    width: 56px;
+    height: 56px;
+    flex: none;
   }
   .logo-text {
     font: 650 1.3rem/1 var(--font-serif);
@@ -166,12 +158,18 @@ const path = Astro.url.pathname.replace(/\.html$/, '') || '/';
     .bar {
       gap: 6px;
     }
-    .hide-sm,
-    .logo-mark {
+    .hide-sm {
       display: none;
     }
+    .logo {
+      gap: 6px;
+    }
+    .logo :global(.logo-mark) {
+      width: 44px;
+      height: 44px;
+    }
     .logo-text {
-      font-size: 1.15rem;
+      font-size: 1.02rem;
     }
     .bar-order {
       padding-inline: 0.85em;

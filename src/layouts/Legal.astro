@@ -1,0 +1,84 @@
+---
+// Layout for Markdown pages in content/pages/ (Privacy, Terms, Return Policy).
+import Base from './Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { LEGAL_NAV } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+}
+const { title, description, h1 } = Astro.props;
+const path = Astro.url.pathname.replace(/\.html$/, '');
+---
+
+<Base title={title} description={description}>
+  <PageHead title={h1} eyebrow="Policies" />
+  <div class="wrap layout">
+    <article class="prose legal">
+      <slot />
+    </article>
+    <aside aria-label="Other policies">
+      <p class="eyebrow">Other policies</p>
+      <ul>
+        {
+          LEGAL_NAV.filter((l) => l.href !== path).map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="q">Questions? <a href="mailto:inna@bakedinweston.com">inna@bakedinweston.com</a></p>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 40px;
+    padding-block: clamp(32px, 5vw, 64px) clamp(56px, 8vw, 96px);
+  }
+  @media (min-width: 1000px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 72px;
+    }
+    aside {
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+      align-self: start;
+    }
+  }
+  .legal :global(h2) {
+    font-size: 1.5rem;
+  }
+  .legal :global(h3) {
+    font-size: 1.15rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .legal :global(a) {
+    overflow-wrap: anywhere;
+  }
+  aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    line-height: 2.2;
+  }
+  aside {
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .q {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+</style>

@@ -1,4 +1,5 @@
 {
+  "_help": "Products on /all-products. Text is verbatim from the old site. imageFile = photo file name in content/images/original/ (without it the card has no photo). No prices: ordering happens on the Storefront.",
   "h1": "Sourdough Products: Artisan Baked Goods from Baked in Weston",
   "products": [
     {
@@ -13,9 +14,10 @@
       "name": "Whole Wheat Sourdough",
       "ingredients": "Whole wheat flour, all-purpose flour, water, salt, leaven,",
       "caption": "Whole Wheat Sourdough. Whole wheat flour, all-purpose flour, water, salt, leaven,",
-      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
-      "imageFile": "unnamed-3.jpg",
-      "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring."
+      "image": null,
+      "imageFile": null,
+      "alt": "",
+      "note": "GoDaddy showed another product's photo here; add the correct photo file and set imageFile."
     },
     {
       "name": "Country Sourdough",
@@ -53,9 +55,10 @@
       "name": "Walnut Cranberry Sourdough",
       "ingredients": "All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
       "caption": "Walnut Cranberry Sourdough. All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
-      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
-      "imageFile": "Cinnamon Raisin.jpg",
-      "alt": "Close-up of a freshly baked artisan sourdough bread with a decorative crust."
+      "image": null,
+      "imageFile": null,
+      "alt": "",
+      "note": "GoDaddy showed another product's photo here; add the correct photo file and set imageFile."
     },
     {
       "name": "Double Chocolate Espresso Sourdough",

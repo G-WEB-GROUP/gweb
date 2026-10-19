@@ -1,0 +1,27 @@
+# systemd unit for the contact form endpoint.
+# Install: sudo cp deploy/bakedinweston-contact.service /etc/systemd/system/
+#          sudo systemctl daemon-reload && sudo systemctl enable --now bakedinweston-contact
+[Unit]
+Description=Baked in Weston contact form (POST /api/contact)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/bakedinweston-contact
+EnvironmentFile=/etc/bakedinweston/contact.env
+ExecStart=/usr/bin/node /opt/bakedinweston-contact/contact-server.mjs
+Restart=on-failure
+RestartSec=3
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadOnlyPaths=/opt/bakedinweston-contact
+
+[Install]
+WantedBy=multi-user.target

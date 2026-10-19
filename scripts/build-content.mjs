@@ -8,13 +8,25 @@
 
 import { load } from 'cheerio';
 import TurndownService from 'turndown';
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync as fsWrite, mkdirSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const SRC = path.join(ROOT, 'content/source');
 const OUT = path.join(ROOT, 'content');
 mkdirSync(path.join(OUT, 'pages'), { recursive: true });
+
+// This is a one-time import from the GoDaddy pages. After that the files in content/ are
+// edited by hand, so existing files are kept unless --force is given.
+const FORCE = process.argv.includes('--force');
+const _write = fsWrite;
+function writeFileSync(file, data) {
+  if (existsSync(file) && !FORCE && !String(file).endsWith('images.json')) {
+    console.log('keep', path.relative(ROOT, String(file)), '(use --force to overwrite)');
+    return;
+  }
+  _write(file, data);
+}
 
 const td = new TurndownService({ headingStyle: 'atx', bulletListMarker: '-' });
 const clean = (t) => (t || '').replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
@@ -79,7 +91,8 @@ function frontmatter(slug, extra = {}) {
   const s = seo[slug];
   const fm = {
     path: `/${slug}`,
-    title: s.title,
+    // GoDaddy gave Terms the generic site title; it gets its own.
+    title: slug === 'terms-and-conditions' && s.title === 'Baked in Weston' ? 'Terms and Conditions - Baked in Weston' : s.title,
     description: s.description,
     h1: extra.h1 ?? s.h1,
     ...extra,

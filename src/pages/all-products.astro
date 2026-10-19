@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import data from '../../content/products.json';
+import faq from '../../content/faq.json';
+import seo from '../../content/seo.json';
+import { photo } from '../lib/images';
+import { STOREFRONT } from '../lib/site';
+
+type P = (typeof data.products)[number];
+const groupOf = (p: P) =>
+  /scones/i.test(p.name) ? 'scones' : /bagel|ciabatta/i.test(p.name) ? 'rolls' : 'breads';
+const groups = [
+  { id: 'breads', title: 'Sourdough breads' },
+  { id: 'rolls', title: 'Bagels & rolls' },
+  { id: 'scones', title: 'Vegan scones' },
+].map((g) => ({ ...g, items: data.products.filter((p) => groupOf(p) === g.id) }));
+---
+
+<Base title={seo['all-products'].title} description={seo['all-products'].description!}>
+  <PageHead
+    title={data.h1}
+    eyebrow="The menu"
+    intro={faq.items.find((i) => /fresh/i.test(i.question))?.answer}
+  >
+    <div class="btn-row head-cta">
+      <a class="btn btn--primary" href={STOREFRONT.menu}><Icon name="bag" /> Order online</a>
+    </div>
+    <nav class="jump" aria-label="Product groups">
+      {groups.map((g) => <a href={`#${g.id}`}>{g.title} <span>{g.items.length}</span></a>)}
+    </nav>
+  </PageHead>
+
+  {
+    groups.map((g) => (
+      <section class="wrap group" id={g.id} aria-labelledby={`${g.id}-t`}>
+        <h2 id={`${g.id}-t`}>{g.title}</h2>
+        <ul class="grid" role="list">
+          {g.items.map((p) => (
+            <li class:list={['card', !photo(p.imageFile) && 'card--text']}>
+              {photo(p.imageFile) ? (
+                <Photo file={p.imageFile} alt={p.alt || p.name} widths={[360, 560, 800]} sizes="(min-width: 1000px) 30vw, (min-width: 640px) 46vw, 92vw" ratio="4 / 3" class="card-img" />
+              ) : (
+                <span class="card-ph" aria-hidden="true">
+                  <span class="card-ic">
+                    <Icon name="wheat" />
+                  </span>
+                </span>
+              )}
+              <div class="card-body">
+                <h3>{p.name}</h3>
+                <p class="ingr">
+                  <span class="visually-hidden">Ingredients: </span>
+                  {p.ingredients}
+                </p>
+                <a class="order" href={STOREFRONT.menu}>
+                  <span>Order<span class="visually-hidden"> {p.name}</span> on the storefront</span>
+                  <Icon name="arrow" />
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section class="wrap note">
+    <p>
+      Questions about ingredients or allergies? See the <a href="/faq">FAQ</a> or <a href="/#contact">contact the baker</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .head-cta {
+    margin-top: 22px;
+  }
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+  }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--crust);
+    background: var(--white);
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .jump a:hover {
+    border-color: var(--accent);
+  }
+  .jump span {
+    font-size: 0.8rem;
+    background: var(--accent-soft);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 0 8px;
+  }
+  .group {
+    padding-top: clamp(36px, 5vw, 64px);
+  }
+  .grid {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+  }
+  /* Cards without a photo get a calm band of the same height, so rows stay even */
+  .card-ph {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    background:
+      radial-gradient(circle at 50% 45%, rgb(255 255 255 / 70%), transparent 55%),
+      linear-gradient(160deg, var(--cream-2), var(--accent-soft));
+  }
+  /* One column on phones: no need to even out rows, so skip the empty band */
+  @media (max-width: 639px) {
+    .card-ph {
+      display: none;
+    }
+  }
+  .card-ic {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--accent-ink);
+    box-shadow: 0 4px 14px rgb(42 23 12 / 8%);
+  }
+  .card-ic :global(svg) {
+    width: 36px;
+    height: 36px;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 18px 22px 22px;
+  }
+  .card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.35em;
+  }
+  .ingr {
+    color: var(--muted);
+    font-size: 0.98rem;
+    flex: 1;
+  }
+  .order {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .order:hover {
+    text-decoration: underline;
+  }
+  .order :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .note {
+    padding-block: clamp(40px, 6vw, 72px) clamp(56px, 8vw, 96px);
+    color: var(--muted);
+  }
+</style>

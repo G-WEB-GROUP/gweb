@@ -178,6 +178,9 @@ Other image issues:
 | 6 | GA4 `G-BF2FDR6KMM` | keep (owner has access); cookie banner with Accept/Decline, GA loads only after Accept |
 | 7 | Privacy Policy mentions GoDaddy | keep text as is for now |
 | 8 | Missing gallery photos | owner/agency will insert the files if they can't be downloaded |
+| 9 | Photos | 5 photos supplied by the owner (hero, Difference, Why Sourdough, My Story, Chocolate) |
+| 10 | Logo | supplied by the owner (round badge) — header, footer, favicon |
+| 11 | Design of home v1 | approved ("everything else OK") |
 
 ## 11. Original questions / issues found
 

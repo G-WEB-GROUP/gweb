@@ -259,6 +259,14 @@ const c = home.contact;
     const err = form.querySelector<HTMLElement>('#cf-email-err')!;
     const file = form.querySelector<HTMLInputElement>('#cf-file')!;
     form.querySelector<HTMLInputElement>('[data-ts]')!.value = String(Date.now());
+    // Result of a submit without JavaScript (server redirects back with ?sent=1 or ?error=1).
+    const q = new URLSearchParams(location.search);
+    if (q.has('sent')) status.textContent = 'Thank you! Your message has been sent.';
+    if (q.has('error')) status.textContent = 'Sorry, the message could not be sent. Please call or email instead.';
+    if (q.has('sent') || q.has('error')) {
+      status.className = 'status ' + (q.has('sent') ? 'ok' : 'bad');
+      history.replaceState(null, '', location.pathname + location.hash);
+    }
 
     const setStatus = (msg: string, ok: boolean) => {
       status.textContent = msg;

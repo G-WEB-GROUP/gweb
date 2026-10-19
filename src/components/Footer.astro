@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import logo from '../assets/logo.png';
 import { NAV, LEGAL_NAV, STOREFRONT, CONTACT } from '../lib/site';
 import home from '../../content/home.json';
 import { sentenceCase } from '../lib/text';
@@ -23,7 +25,7 @@ const [ctaTitle, ctaSub] = (() => {
 
   <div class="wrap cols">
     <div class="col brand">
-      <p class="f-logo">Baked <em>in</em> Weston</p>
+      <Image src={logo} alt="Baked in Weston Sourdough" width={112} height={112} densities={[1, 2]} class="f-badge" />
       <address>
         <a href={CONTACT.mapsUrl}>{CONTACT.address}</a><br />
         <a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a><br />
@@ -136,6 +138,11 @@ const [ctaTitle, ctaSub] = (() => {
     .cols {
       grid-template-columns: 1.6fr 1fr 1fr 1fr;
     }
+  }
+  .site-footer :global(.f-badge) {
+    width: 112px;
+    height: 112px;
+    margin-bottom: 16px;
   }
   .f-logo {
     font: 650 1.5rem/1 var(--font-serif);

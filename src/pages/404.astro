@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { STOREFRONT } from '../lib/site';
+---
+
+<Base noindex title="Page not found - Baked in Weston" description="This page does not exist. Find fresh sourdough bread, bagels and vegan scones from Baked in Weston.">
+  <section class="nf wrap">
+    <p class="big" aria-hidden="true">4<span>0</span>4</p>
+    <h1>This loaf isn't on the shelf</h1>
+    <p class="lead">The page you're looking for doesn't exist or has moved.</p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="/"><Icon name="arrow" /> Go to home page</a>
+      <a class="btn btn--ghost" href="/all-products">See all products</a>
+      <a class="btn btn--ghost" href={STOREFRONT.menu}><Icon name="bag" /> Order online</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-block: clamp(56px, 10vw, 140px);
+    text-align: center;
+  }
+  .big {
+    font: 700 clamp(5rem, 3rem + 10vw, 10rem) / 1 var(--font-serif);
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .big span {
+    color: var(--accent);
+  }
+  .lead {
+    margin-inline: auto;
+    max-width: 40ch;
+    margin-bottom: 28px;
+  }
+  .btn-row {
+    justify-content: center;
+  }
+</style>

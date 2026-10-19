@@ -1,0 +1,9 @@
+---
+import Legal from '../layouts/Legal.astro';
+import * as page from '../../content/pages/return-policy.md';
+const fm = page.frontmatter as { title: string; description: string; h1: string };
+---
+
+<Legal title={fm.title} description={fm.description} h1={fm.h1}>
+  <page.Content />
+</Legal>
