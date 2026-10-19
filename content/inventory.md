@@ -107,7 +107,7 @@ CTA button "Order Bread" → `/shop/olsPage=all` ⚠️ dead GoDaddy store link 
   migration this sentence is no longer accurate (owner's decision; text not changed).
 - **Terms and Conditions** — "Terms of service": Overview + Sections 1–20 + "SMS/MMS Mobile Message
   Marketing Program Terms and Conditions" (13 points), followed by a full copy of the Return Policy.
-  Contact: inna@bakedinweston.com.
+  Contact: inna@bakedinweston.com. The duplicated Return Policy at the end is **dropped** (decision 5).
 - **Return Policy** — cancellation/refund rules, "Damages and issues", "Exceptions / non-returnable items",
   "Refunds". Contact: inna@bakedinweston.com.
 
@@ -143,7 +143,19 @@ Original quality = URL with the `/:/…` transform suffix removed.
 2. **Images** — either allow `img1.wsimg.com` in the environment network settings, or save pages as
    "Webpage, Complete" and send the `_files` folders (those hold only resized copies, so the first option is better).
 
-## 10. Questions for the owner / issues found
+## 10. Decisions (2026-10-19)
+
+| # | Question | Decision |
+|---|---|---|
+| 1 | Contact form recipient | **inna@bakedinweston.com** |
+| 2 | Ingredient lists ending with "leaven," | keep verbatim |
+| 3 | Wrong photos for Walnut Cranberry and Whole Wheat | correct photos exist — ⏳ waiting for the files |
+| 4 | FAQ "Order Bread" button | → Storefront |
+| 5 | Return Policy duplicated inside Terms | removed from Terms; stays on `/return-policy` |
+| 6 | GA4 `G-BF2FDR6KMM` | keep (owner has access); cookie banner with Accept/Decline, GA loads only after Accept |
+| 7 | Privacy Policy mentions GoDaddy | keep text as is for now |
+
+## 11. Original questions / issues found
 
 1. Form recipient: **sales@** (brief) or **inna@** (used in all legal texts)? Legal texts keep inna@ unless told otherwise.
 2. Ingredient lists ending with "leaven," (items 2, 3, 8, 9, 15) — were they cut off on GoDaddy? Keep as is or end with "leaven."?

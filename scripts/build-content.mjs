@@ -124,12 +124,9 @@ function frontmatter(slug, extra = {}) {
       patterns: [[/^(OVERVIEW|SECTION \d+ - .+|SMS\/MMS MOBILE MESSAGE MARKETING PROGRAM TERMS AND CONDITIONS)$/, '###']],
     },
   });
-  const retTitle = clean($('[data-aid="RETURN_REFUND_SECTION_TITLE_RENDERED"]').text());
-  const ret = toMarkdown($, ['RETURN_REFUND_CONTENT_RENDERED'], { boldTo: '###' });
-  writeFileSync(
-    path.join(OUT, 'pages/terms-and-conditions.md'),
-    frontmatter('terms-and-conditions', { h1 }) + terms + `\n\n## ${retTitle}\n\n` + ret + '\n',
-  );
+  // The Return Policy copy that GoDaddy appends here is dropped (owner's decision):
+  // it lives on /return-policy.
+  writeFileSync(path.join(OUT, 'pages/terms-and-conditions.md'), frontmatter('terms-and-conditions', { h1 }) + terms + '\n');
 }
 
 // ---------- FAQ ----------

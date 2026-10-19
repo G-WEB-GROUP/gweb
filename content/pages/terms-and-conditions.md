@@ -161,25 +161,3 @@ Baked in Weston (hereinafter, “We,” “Us,” “Our”) is offering a mobil
 12\. Connecticut Law: We endeavor to comply with the Connecticut Telemarketing Act and the Connecticut Do Not Call Act as applicable to Connecticut residents. For purposes of compliance, you agree that we may assume that you are a Connecticut resident if, at the time of opt-in to Program, (1) your shipping address, as provided is located in Connecticut or (2) the area code for the phone number used to opt-into the Program is a Connecticut area code. You agree that the requirements of the Connecticut Telemarketing Act and the Connecticut Do Not Call Act do not apply to you, and you shall not assert that you are a Connecticut resident, if you do not meet either of these criteria or, in the alternative, do not affirmatively advise us in writing that you are a Connecticut resident by sending written notice to us. Insofar as you are a Connecticut resident, you agree that mobile messages sent by Us in direct response to mobile messages or requests from You (including but are not limited to response to Keywords, opt-in, help or stop requests and shipping notifications) shall not constitute a “telephonic sales call” or “commercial telephone solicitation phone call” for purposes of Connecticut Statutes Title 42, Chapter 743a, Section 42 (including but not limited to sections 42-284 to 42-288b), to the extent the law is otherwise relevant and applicable.
 
 13\. Miscellaneous: You warrant and represent to Us that you have all necessary rights, power, and authority to agree to these Terms and perform your obligations hereunder, and nothing contained in this Agreement or in the performance of such obligations will place you in breach of any other contract or obligation. The failure of either party to exercise in any respect any right provided for herein will not be deemed a waiver of any further rights hereunder. If any provision of this Agreement is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that this Agreement will otherwise remain in full force and effect and enforceable. Any new features, changes, updates or improvements of the Program shall be subject to this Agreement unless explicitly stated otherwise in writing. We reserve the right to change this Agreement from time to time. Any updates to this Agreement shall be communicated to you. You acknowledge your responsibility to review this Agreement from time to time and to be aware of any such changes. By continuing to participate in the Program after any such changes, you accept this Agreement, as modified.
-
-## Return Policy
-
-You can only request an order cancellation and full refund if your order has not been processed yet, and production has not started.
-
-To request a cancellation or return, you can contact us at [inna@bakedinweston.com](mailto:inna@bakedinweston.com). If your request is accepted, we will notify you. Items sent back to us without first requesting a return will not be accepted.
-
-You can always contact us for any return questions at [inna@bakedinweston.com](mailto:inna@bakedinweston.com).
-
-### Damages and issues
-
-Please inspect your order upon reception and contact us **immediately** if the item is defective, or damaged or if you receive the wrong item so that we can evaluate the issue and make it right. If the order arrives damaged, we will either offer you a duplicate to be picked up by you or a gift card from our store which you can use on future orders.
-
-### Exceptions / non-returnable items
-
-Bread cannot be returned just because you changed your mind or because you do not like it. It is a perishable good and it is custom made, we hope you understand.
-
-Unfortunately, we cannot accept returns on sale items or gift cards.
-
-### Refunds
-
-If approved, you’ll be automatically refunded on your original payment method. Please remember it can take some time for your bank or credit card company to process and post the refund too.
