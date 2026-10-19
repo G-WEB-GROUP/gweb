@@ -4,7 +4,7 @@ Migration of bakedinweston.com from GoDaddy Website Builder to a static site on 
 
 ## Status
 
-- [~] Step 1: content inventory (`content/inventory.md`) — 5 of 6 pages done; home page and images pending
+- [x] Step 1: content inventory (`content/inventory.md`) — all 6 pages; photos listed, download pending
 - [ ] Step 2+: Astro site, design, deploy
 
 ## Step 1: collect content from the current site
@@ -37,7 +37,8 @@ When the site can't be crawled, save each page in the browser (Ctrl+S) into `con
 (`home`, `faq`, `all-products`, `privacy-policy`, `terms-and-conditions`, `return-policy`), then run:
 
 ```bash
-node scripts/build-content.mjs
+npm run content   # saved HTML -> content/*.json, content/pages/*.md
+npm run images    # download original photos listed in content/images.json
 ```
 
 It writes the editable content files (text kept verbatim):
@@ -45,6 +46,8 @@ It writes the editable content files (text kept verbatim):
 | File | What |
 |---|---|
 | `content/seo.json` | title, description, OG/Twitter, theme-color per page |
+| `content/home.json` | home page: hero, Difference, gallery, About, banner, contacts, social |
+| `content/images.json` | every photo: original URL, local file name, alt, where it is used; slides still missing |
 | `content/faq.json` | FAQ questions and answers |
 | `content/products.json` | products: name, ingredients, image URL, alt |
 | `content/pages/*.md` | Privacy Policy, Terms and Conditions, Return Policy |

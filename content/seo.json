@@ -1,4 +1,20 @@
 {
+  "home": {
+    "title": "Weston Bakery - Artisanal Sourdough & Baked Goods",
+    "description": "Explore Weston Bakery for fresh artisanal sourdough breads and baked goods. Order online now for local delivery!",
+    "ogUrl": "https://bakedinweston.com/",
+    "ogTitle": "Baked in Weston",
+    "ogDescription": "Weston's bakery, a charming microbakery in Weston, CT, specializes in artisanal sourdough breads, delicious sourdough bagels, and a variety of other sourdough goods, including vegan bread and no preservatives bread.",
+    "ogImage": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
+    "twitterCard": "summary",
+    "twitterTitle": "Baked in Weston",
+    "twitterDescription": "Weston Bakery: Fresh Sourdough Breads and Baked Goods",
+    "twitterImage": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
+    "twitterImageAlt": "Baked in Weston",
+    "themeColor": "#ed6a29",
+    "googleSiteVerification": "bRz9ujVaVlrNNjrMt3HXZ5Q4lJN0pYNC_gyUgZ6YP2A",
+    "h1": "Weston Bakery: Fresh Sourdough Breads and Baked Goods"
+  },
   "faq": {
     "title": "Sourdough Bread FAQ - Your Questions Answered",
     "description": "Explore our sourdough bread FAQ to learn about gluten-friendly, vegan options and how to best preserve your artisanal breads.",

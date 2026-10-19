@@ -1,0 +1,285 @@
+{
+  "images": [
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/cff40c3e-27dc-404b-a8a9-a13fc06cf318.jpeg",
+      "file": "cff40c3e-27dc-404b-a8a9-a13fc06cf318.jpeg",
+      "alt": "Baked in Weston",
+      "usedIn": [
+        "logo + favicon"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
+      "file": "unnamed-3.jpg",
+      "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring.",
+      "usedIn": [
+        "home: hero + og:image",
+        "products: Whole Wheat Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/image_123650291.JPG",
+      "file": "image_123650291.jpg",
+      "alt": "Close-up of a rustic, crusty loaf of artisan bread.",
+      "usedIn": [
+        "home: Discover the Difference",
+        "products: White Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0.jpg",
+      "file": "0.jpg",
+      "alt": "Close-up of rustic sourdough bread with airy crumb and crusty exterior.",
+      "usedIn": [
+        "home: About / Why Sourdough?",
+        "home: gallery #32"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed.jpg",
+      "file": "unnamed.jpg",
+      "alt": "Woman in red apron with freshly baked bread and a red pot in a kitchen.",
+      "usedIn": [
+        "home: About / My Story"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0-1.jpg",
+      "file": "0-1.jpg",
+      "alt": "Freshly baked artisanal bread with decorative scoring and golden crust.",
+      "usedIn": [
+        "home: About / Enjoying Artisanal Handcrafted Sourdough",
+        "home: gallery #33"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-1.jpg",
+      "file": "unnamed-1.jpg",
+      "alt": "Freshly baked artisan bread loaf cooling on a wire rack.",
+      "usedIn": [
+        "home: About / WEEKLY CUSTOMERS ENJOY FREE LOCAL DELIVERY"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/chocolate.jpg",
+      "file": "chocolate.jpg",
+      "alt": "A rustic loaf of bread with a dark, cracked crust cooling on a wire rack.",
+      "usedIn": [
+        "home: gallery #1",
+        "products: Chocolate Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/bagel2.jpeg",
+      "file": "bagel2.jpeg",
+      "alt": "Freshly baked golden-brown bagels cooling on a wire rack.",
+      "usedIn": [
+        "home: gallery #2"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/white_sandwich.jpg",
+      "file": "white_sandwich.jpg",
+      "alt": "Freshly baked golden brown bread loaf cooling on a rack.",
+      "usedIn": [
+        "home: gallery #3",
+        "products: White Sandwich Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/Classic.jpg",
+      "file": "classic.jpg",
+      "alt": "Country Sourdough",
+      "usedIn": [
+        "products: Country Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/jewish_rye.jpg",
+      "file": "jewish_rye.jpg",
+      "alt": "Rye Sourdough",
+      "usedIn": [
+        "products: Rye Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
+      "file": "cinnamon-raisin.jpg",
+      "alt": "Close-up of a freshly baked artisan sourdough bread with a decorative crust.",
+      "usedIn": [
+        "products: Walnut Cranberry Sourdough",
+        "products: Cinnamon Raisin Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/double%20chocolate%20espresso.jpg",
+      "file": "double-chocolate-espresso.jpg",
+      "alt": "Double Chocolate Espresso Sourdough",
+      "usedIn": [
+        "products: Double Chocolate Espresso Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/borodinsky.jpg",
+      "file": "borodinsky.jpg",
+      "alt": "Borodinsky Rye Sourdough",
+      "usedIn": [
+        "products: Borodinsky Rye Sourdough"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ciabatta%20rolls.jpg",
+      "file": "ciabatta-rolls.jpg",
+      "alt": "Sourdough Ciabatta Rolls",
+      "usedIn": [
+        "products: Sourdough Ciabatta Rolls (8)"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/tart%20cherry%20scones.jpg",
+      "file": "tart-cherry-scones.jpg",
+      "alt": "Sourdough Vegan Scones with Tart Cherries",
+      "usedIn": [
+        "products: Sourdough Vegan Scones with Tart Cherries"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/vanilla%20scones.jpg",
+      "file": "vanilla-scones.jpg",
+      "alt": "Sourdough Vegan Vanilla Scones",
+      "usedIn": [
+        "products: Sourdough Vegan Vanilla Scones"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/cranberry%20scones.jpg",
+      "file": "cranberry-scones.jpg",
+      "alt": "Sourdough Vegan Scones with Cranberries",
+      "usedIn": [
+        "products: Sourdough Vegan Scones with Cranberries"
+      ]
+    },
+    {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/bagels-85a777e.jpg",
+      "file": "bagels-85a777e.jpg",
+      "alt": "Sourdough Bagels",
+      "usedIn": [
+        "products: Sourdough Bagels"
+      ]
+    }
+  ],
+  "missing": [
+    {
+      "usedIn": "home: gallery #4",
+      "alt": "Freshly baked golden brown bagels on parchment paper."
+    },
+    {
+      "usedIn": "home: gallery #5",
+      "alt": "Rustic loaf of oat-crusted bread on a checkered cloth."
+    },
+    {
+      "usedIn": "home: gallery #6",
+      "alt": "Close-up of a rustic, crusty oat-topped bread loaf."
+    },
+    {
+      "usedIn": "home: gallery #7",
+      "alt": "Close-up of a sugar-topped blueberry scone with a golden crust."
+    },
+    {
+      "usedIn": "home: gallery #8",
+      "alt": "Close-up of freshly baked scones with raisins and sugar crystals."
+    },
+    {
+      "usedIn": "home: gallery #9",
+      "alt": "A dark loaf of rye bread sprinkled with coriander seeds cooling on a wire rack."
+    },
+    {
+      "usedIn": "home: gallery #10",
+      "alt": "Close-up of sliced chocolate bread on a wooden surface."
+    },
+    {
+      "usedIn": "home: gallery #11",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #12",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #13",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #14",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #15",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #16",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #17",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #18",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #19",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #20",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #21",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #22",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #23",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #24",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #25",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #26",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #27",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #28",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #29",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #30",
+      "alt": ""
+    },
+    {
+      "usedIn": "home: gallery #31",
+      "alt": ""
+    }
+  ]
+}

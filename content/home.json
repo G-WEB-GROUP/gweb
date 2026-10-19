@@ -1,0 +1,341 @@
+{
+  "hero": {
+    "h1": "Weston Bakery: Fresh Sourdough Breads and Baked Goods",
+    "subtitle": "Weston's bakery, a charming microbakery in Weston, CT, specializes in artisanal sourdough breads, delicious sourdough bagels, and a variety of other sourdough goods, including vegan bread and no preservatives bread.",
+    "phoneLine": "For delicious bagels and a variety of breads, including sourdough and vegan bread made without preservatives, call Weston's Bakery at 1.914.523.9904.",
+    "cta": {
+      "text": "Order Here",
+      "href": "https://app.simply-bread.co/bakedinweston/signup"
+    },
+    "backgroundImage": {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
+      "file": "unnamed-3.jpg",
+      "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring."
+    }
+  },
+  "difference": {
+    "title": "Discover the Baked in Weston Difference",
+    "text": "I handcraft and bake artisanal sourdough bread (white, country, whole wheat and rye varieties), bagels and sourdough vegan scones.",
+    "image": {
+      "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/image_123650291.JPG",
+      "file": "image_123650291.JPG",
+      "alt": "Close-up of a rustic, crusty loaf of artisan bread."
+    }
+  },
+  "marquee": "Baked with love and always fresh!",
+  "gallery": {
+    "title": "SOURDOUGH BREADS AND BAKED GOODS: A Visual of Baked in Weston",
+    "slides": [
+      {
+        "index": 0,
+        "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/chocolate.jpg",
+        "file": "chocolate.jpg",
+        "alt": "A rustic loaf of bread with a dark, cracked crust cooling on a wire rack."
+      },
+      {
+        "index": 1,
+        "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/bagel2.jpeg",
+        "file": "bagel2.jpeg",
+        "alt": "Freshly baked golden-brown bagels cooling on a wire rack."
+      },
+      {
+        "index": 2,
+        "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/white_sandwich.jpg",
+        "file": "white_sandwich.jpg",
+        "alt": "Freshly baked golden brown bread loaf cooling on a rack."
+      },
+      {
+        "index": 3,
+        "url": null,
+        "file": null,
+        "alt": "Freshly baked golden brown bagels on parchment paper."
+      },
+      {
+        "index": 4,
+        "url": null,
+        "file": null,
+        "alt": "Rustic loaf of oat-crusted bread on a checkered cloth."
+      },
+      {
+        "index": 5,
+        "url": null,
+        "file": null,
+        "alt": "Close-up of a rustic, crusty oat-topped bread loaf."
+      },
+      {
+        "index": 6,
+        "url": null,
+        "file": null,
+        "alt": "Close-up of a sugar-topped blueberry scone with a golden crust."
+      },
+      {
+        "index": 7,
+        "url": null,
+        "file": null,
+        "alt": "Close-up of freshly baked scones with raisins and sugar crystals."
+      },
+      {
+        "index": 8,
+        "url": null,
+        "file": null,
+        "alt": "A dark loaf of rye bread sprinkled with coriander seeds cooling on a wire rack."
+      },
+      {
+        "index": 9,
+        "url": null,
+        "file": null,
+        "alt": "Close-up of sliced chocolate bread on a wooden surface."
+      },
+      {
+        "index": 10,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 11,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 12,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 13,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 14,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 15,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 16,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 17,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 18,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 19,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 20,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 21,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 22,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 23,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 24,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 25,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 26,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 27,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 28,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 29,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 30,
+        "url": null,
+        "file": null,
+        "alt": ""
+      },
+      {
+        "index": 31,
+        "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0.jpg",
+        "file": "0.jpg",
+        "alt": ""
+      },
+      {
+        "index": 32,
+        "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0-1.jpg",
+        "file": "0-1.jpg",
+        "alt": ""
+      }
+    ]
+  },
+  "about": {
+    "title": "About Baked in Weston",
+    "items": [
+      {
+        "headline": "Why Sourdough?",
+        "bodyMarkdown": "That sweet tang of sourdough... What is sourdough bread and why is it so tasty, boasting such a complex, pungent flavor that makes it truly unique? Sourdough is the traditional method of bread-making that has been used historically. It’s not just a style of bread; it’s a way to create nutritious and easy-to-digest bread. The ingredients are simple, resulting in the most delicious and nutritious bread available! Sourdough involves long fermentation, where time and temperature are crucial elements. This process can take up to 72 hours, allowing the food components in the flour to break down into simpler forms, making the bread easier to digest. Essentially, sourdough unlocks the nutrients that are tightly held in grains, whether they are whole wheat, white, or rye. To fully benefit from the minerals (like iron, magnesium, phosphorus, selenium), vitamins (A, B, E), and nutrients in the grain, fermentation is necessary. It's the quality of the ingredients and the proper process that make sourdough bread exceptional. Without this careful process, even the best organic or whole grains will not provide maximum nutrition and digestive benefits. As for the flavor and taste, the sourdough process creates bread with a unique tangy flavor, a crusty exterior, and a chewy, airy crumb that has been cherished for generations. The long fermentation enhances the taste and boosts the nutritional profile of the bread, thanks to the wild yeast and lactic acid bacteria involved. I only use flour (all-purpose, bread, whole wheat, or rye), water, salt, and leaven (live starter) to make it, ensuring there are no preservatives or chemical additives, nor processed ingredients. Additionally, my approach to making vegan bread aligns with my belief that crafting bread the sourdough way restores the value of nutritious, healthy, and delicious bread while promoting sustainable living. I hope that every loaf of sourdough bread I bake for you fosters a sense of community and encourages support for local businesses, like Weston's Bakery, right in our own neighborhood. If you're looking for something different, I also offer bagels made with the same dedication to quality and flavor.",
+        "cta": {
+          "text": "View My Menu",
+          "href": "https://app.simply-bread.co/bakedinweston"
+        },
+        "image": {
+          "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0.jpg",
+          "file": "0.jpg",
+          "alt": "Close-up of rustic sourdough bread with airy crumb and crusty exterior."
+        }
+      },
+      {
+        "headline": "My Story",
+        "bodyMarkdown": "Greetings! I'm Inna. I love baking and cooking. I live with my husband and our two daughters in Weston, where we moved to in 2023. I began baking bread when I realized I missed eating delicious, nutritious, crusty, chewy loaves that I enjoyed growing up. Those loaves were meals unto themselves, and enjoying good bread was part of my everyday life. A few years ago, I developed my very own starter to make 100% wild yeast sourdough loaves. I baked for my family, friends, neighbors, and anyone I knew around. This belief that nutritious and delicious bread, including vegan bread, should be available to more people inspired me to start Baked In Weston, a local bakery focused on providing no preservatives bread to the community. I use basic ingredients and make every loaf by hand in small batches, ensuring they are crafted with clean ingredients and avoiding any additives or enhancers.\n\nI create bread in my kitchen and attend to the dough for 24-72 hours to produce a beautiful and delicious loaf. The process is long, but the result is deeply satisfying. The 100% wild yeast sourdough bread I bake tastes amazing and is wonderfully satiating. I also experiment with bagels to offer a variety of options at Weston's bakery.\n\nI hope you can give it a try and find out for yourself.\n\nRead more on Dan Woog's blog for Westport:\n\n[https://06880danwoog.com/2025/02/07/baked-in-weston-innas-nutritious-delicious-sourdough/](https://06880danwoog.com/2025/02/07/baked-in-weston-innas-nutritious-delicious-sourdough/)",
+        "cta": null,
+        "image": {
+          "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed.jpg",
+          "file": "unnamed.jpg",
+          "alt": "Woman in red apron with freshly baked bread and a red pot in a kitchen."
+        }
+      },
+      {
+        "headline": "Enjoying Artisanal Handcrafted Sourdough",
+        "bodyMarkdown": "My sourdough bread from Weston's Bakery pairs well with a variety of dishes and can also be enjoyed on its own with butter, cream cheese, or jelly. It's a delicious, wholesome option that's perfect for any meal. While I love my vegan bread fresh, it can also be frozen as a whole or sliced, just like bagels. Plus, it's a great choice because it contains no preservatives.",
+        "cta": {
+          "text": "View My Menu",
+          "href": "https://app.simply-bread.co/bakedinweston"
+        },
+        "image": {
+          "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/0-1.jpg",
+          "file": "0-1.jpg",
+          "alt": "Freshly baked artisanal bread with decorative scoring and golden crust."
+        }
+      },
+      {
+        "headline": "WEEKLY CUSTOMERS ENJOY FREE LOCAL DELIVERY",
+        "bodyMarkdown": null,
+        "cta": {
+          "text": "Call Your Baker",
+          "href": "tel:914-523-9904"
+        },
+        "image": {
+          "url": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-1.jpg",
+          "file": "unnamed-1.jpg",
+          "alt": "Freshly baked artisan bread loaf cooling on a wire rack."
+        }
+      }
+    ]
+  },
+  "banner": "EAT REAL BREAD. SUPPORT YOUR LOCAL BAKER. Experience best nutrition and flavor bread can offer.",
+  "contact": {
+    "title": "Contact the baker",
+    "formTitle": "Drop me a line!",
+    "formFields": [
+      "Name",
+      "Email*",
+      "Message",
+      "Attach Files"
+    ],
+    "submit": "Send",
+    "introHeading": "Better yet, see me in person!",
+    "introText": "I would love to meet my customers in person, so feel free to visit Weston's Bakery during normal business hours to try our delicious bagels, no preservatives bread, and vegan bread, including our famous sourdough.",
+    "whatsapp": {
+      "text": "Message us on WhatsApp",
+      "href": "https://wa.me/19145239904"
+    },
+    "businessName": "Baked in Weston",
+    "address": "24 Farrell Road, Weston, Connecticut 06883, United States",
+    "phone": {
+      "text": "1.914.523.9904",
+      "href": "tel:19145239904"
+    },
+    "email": {
+      "text": "sales@bakedinweston.com",
+      "href": "mailto:sales@bakedinweston.com"
+    },
+    "hoursTitle": "By Appointment",
+    "hoursText": "Please make an appointment before you visit. Open 7 days a week."
+  },
+  "social": {
+    "title": "Connect With Me",
+    "facebook": "https://www.facebook.com/428263420363860",
+    "instagram": "https://www.instagram.com/bakedinweston"
+  },
+  "footer": {
+    "copyright": "Copyright © 2026 Baked in Weston - All Rights Reserved."
+  },
+  "jsonLd": [
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "image": [
+        "http://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg"
+      ],
+      "@id": "http://32e560b8.239c.4e88.bfc4.1cf69e9d7d19.com",
+      "url": "bakedinweston.com",
+      "name": "Baked in Weston",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "24 Farrell Rd",
+        "addressLocality": "Weston",
+        "addressRegion": "CT",
+        "postalCode": "06883",
+        "addressCountry": "United States"
+      }
+    }
+  ]
+}

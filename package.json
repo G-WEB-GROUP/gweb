@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Baked in Weston website (migration from GoDaddy)",
   "scripts": {
-    "scrape": "node scripts/scrape.mjs"
+    "scrape": "node scripts/scrape.mjs",
+    "images": "node scripts/download-images.mjs",
+    "content": "node scripts/build-content.mjs"
   },
   "repository": {
     "type": "git",
