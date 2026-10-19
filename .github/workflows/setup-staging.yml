@@ -46,7 +46,8 @@ jobs:
 
       - name: Upload setup bundle
         run: |
-          mkdir -p bundle && cp -r deploy server scripts/server/setup-staging.sh bundle/ && rm -rf bundle/server/node_modules
+          mkdir -p bundle && cp -r deploy server scripts/server/. bundle/ && rm -rf bundle/server/node_modules
+          (cd bundle/server && npm ci --omit=dev --no-audit --no-fund --silent)
           tar czf bundle.tgz -C bundle .
           scp bundle.tgz "$USER_NAME@$HOST:/tmp/biw-setup.tgz"
 

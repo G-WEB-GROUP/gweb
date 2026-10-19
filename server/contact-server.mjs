@@ -6,6 +6,7 @@
 //   MAIL_TO    — where messages go (inna@bakedinweston.com)
 //   MAIL_FROM  — sender address the SMTP account may send as
 //   PORT       — default 8787
+//   HOST       — listen address, default 127.0.0.1 (0.0.0.0 inside a Docker container)
 // Without SMTP_HOST the message is printed to the log instead of sent (for testing).
 //
 // Spam protection instead of reCAPTCHA: hidden "website" field, minimum fill time,
@@ -16,6 +17,7 @@ import Busboy from 'busboy';
 import nodemailer from 'nodemailer';
 
 const PORT = Number(process.env.PORT || 8787);
+const HOST = process.env.HOST || '127.0.0.1';
 const MAIL_TO = process.env.MAIL_TO || 'inna@bakedinweston.com';
 const MAIL_FROM = process.env.MAIL_FROM || process.env.SMTP_USER || 'website@bakedinweston.com';
 const MAX_FILE = 5 * 1024 * 1024;
@@ -161,4 +163,4 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', () => console.log(`[contact] listening on 127.0.0.1:${PORT}, mail to ${MAIL_TO}`));
+server.listen(PORT, HOST, () => console.log(`[contact] listening on ${HOST}:${PORT}, mail to ${MAIL_TO}`));

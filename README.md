@@ -125,20 +125,31 @@ whose `og:url` has no `www`).
 
 ## Staging (temporary preview on a shared server)
 
-Preview at **https://bakedinweston.g-web.group** on the server that hosts horpyna.g-web.group.
-Everything runs from GitHub Actions; nothing has to be typed on the server.
+Preview at **https://bakedinweston.g-web.group** on the server that hosts horpyna.g-web.group
+(`91.192.105.75`). Everything runs from GitHub Actions.
 
-1. DNS of `g-web.group`: `A  bakedinweston  <server IP>` (done). `bakedinweston.com` DNS is not touched.
-2. SSH key for GitHub (the server accepts keys only): `ssh-keygen -t ed25519 -f ~/.ssh/biw_deploy -N ""`,
-   then `ssh-copy-id -i ~/.ssh/biw_deploy.pub <user>@horpyna.g-web.group`.
-   GitHub → Settings → Secrets and variables → Actions → New repository secret:
-   `STAGING_HOST`, `STAGING_USER`, `STAGING_SSH_KEY` (content of `~/.ssh/biw_deploy`), and
-   `STAGING_PASSWORD` only if the user is not root and sudo asks for a password.
-3. Actions → **Setup staging server** → Run workflow (once). It runs `scripts/server/setup-staging.sh` with sudo:
-   folders, nginx vhost (not `default_server`; checked with `nginx -t` and removed again if the check fails),
-   Let's Encrypt certificate, contact form service on port 8787 (log-only until SMTP is set in
-   `/etc/bakedinweston/contact.env`). Other sites on the server are not changed. Safe to run again.
+That server runs nginx **in Docker** (`scb-proxy-nginx-1`, ports 80/443, configs in `/opt/scb/proxy/conf.d`,
+certificates in the `scb-proxy_letsencrypt` volume). The setup adds, without touching Horpyna:
+
+- `/opt/scb/proxy/conf.d/bakedinweston.conf` — `bakedinweston.g-web.group` → container `biw-web`
+  (checked with `nginx -t` before reload; restored if the check fails; the upstream is resolved per request,
+  so the proxy starts even when our containers are down);
+- container `biw-web` (`nginx:1.27-alpine`, same site rules as `deploy/nginx/*.inc`, serves `/var/www/bakedinweston`);
+- container `biw-contact` (`node:22-alpine`, the form endpoint; settings in `/etc/bakedinweston/contact.env`);
+- Let's Encrypt certificate via the `certbot/certbot` image + weekly renewal in `/etc/cron.d/bakedinweston-cert`.
+
+On a server with nginx installed directly, the same script sets up a normal vhost + systemd service instead.
+
+Steps:
+1. DNS of `g-web.group`: `A  bakedinweston  91.192.105.75`.
+2. GitHub secrets: `STAGING_HOST` (`horpyna.g-web.group`), `STAGING_USER`, `STAGING_SSH_KEY`
+   (private key whose `.pub` is in that user's `~/.ssh/authorized_keys`; the server accepts keys only),
+   `STAGING_PASSWORD` (for sudo, if needed).
+3. Actions → **Setup staging server** → Run workflow (once; safe to repeat).
 4. Actions → **Deploy staging** → Run workflow → `all`. After that every push to the work branch deploys the site.
+
+To remove the staging site: `rm /opt/scb/proxy/conf.d/bakedinweston.conf && docker exec scb-proxy-nginx-1 nginx -s reload`,
+then `docker rm -f biw-web biw-contact` and `rm /etc/cron.d/bakedinweston-cert`.
 
 ## DNS switch
 

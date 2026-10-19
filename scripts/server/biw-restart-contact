@@ -1,0 +1,12 @@
+#!/bin/sh
+# Restart the contact form service after a deploy (installed to /usr/local/bin by setup-staging.sh;
+# the deploy user may run it with sudo without a password).
+set -e
+if command -v docker >/dev/null 2>&1 && docker ps -a --format '{{.Names}}' | grep -qx biw-contact; then
+  docker restart biw-contact >/dev/null
+else
+  cd /opt/bakedinweston-contact
+  [ -d node_modules ] || npm ci --omit=dev --no-audit --no-fund --silent
+  systemctl restart bakedinweston-contact
+fi
+echo "contact service restarted"

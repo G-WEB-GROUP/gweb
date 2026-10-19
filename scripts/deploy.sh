@@ -45,8 +45,11 @@ $SSH "ln -sfn $SITE_DIR/releases/$REL $SITE_DIR/current.tmp && mv -Tf $SITE_DIR/
 
 if [[ "${1:-}" != "--site" ]]; then
   echo "==> Contact service"
-  rsync -az --delete -e "$SSH_BASE" --exclude node_modules --exclude test.mjs server/ "${DEPLOY_USER}@${DEPLOY_HOST}:$APP_DIR/"
-  $SSH "cd $APP_DIR && npm ci --omit=dev --no-audit --no-fund && $SUDO systemctl restart bakedinweston-contact"
+  # Dependencies are installed here (pure JS) and uploaded, so the server needs no npm
+  (cd server && npm ci --omit=dev --no-audit --no-fund --silent)
+  rsync -az --delete -e "$SSH_BASE" --exclude test.mjs server/ "${DEPLOY_USER}@${DEPLOY_HOST}:$APP_DIR/"
+  # Restarts the service (systemd or the biw-contact container)
+  $SSH "$SUDO /usr/local/bin/biw-restart-contact"
 fi
 
 echo "==> Done: release $REL is live on $DEPLOY_HOST"
