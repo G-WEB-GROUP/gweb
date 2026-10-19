@@ -123,6 +123,19 @@ Nginx: gzip (brotli optional), `Cache-Control: immutable` for a year on hashed f
 `no-cache` on HTML, security headers, `www` → no-`www` and `http` → `https` redirects (as on GoDaddy,
 whose `og:url` has no `www`).
 
+## Staging (temporary preview on a shared server)
+
+Preview at **https://bakedinweston.g-web.group** on the server that hosts horpyna.g-web.group.
+
+1. DNS of `g-web.group`: add `A  bakedinweston  <server IP>` (or `CNAME  bakedinweston  horpyna.g-web.group.`).
+   `bakedinweston.com` DNS is not touched.
+2. Server, once: run the "Server setup" commands above, but enable `deploy/nginx/bakedinweston-staging.conf`
+   instead of the test config (it is not `default_server`, other sites stay as they are). Check that port 8787
+   is free (`ss -ltnp | grep 8787`). Get the certificate as described at the top of that file.
+3. GitHub → Settings → Secrets and variables → Actions: `STAGING_HOST`, `STAGING_USER`, `STAGING_SSH_KEY`.
+4. Every push to the work branch deploys the site (`.github/workflows/deploy-staging.yml`); "Run workflow"
+   with `all` also updates the contact form service.
+
 ## DNS switch
 
 See **`docs/dns-cutover.md`**: only `A @` (and `AAAA @`) and `CNAME www` change; MX, TXT/SPF, DKIM, DMARC stay,
