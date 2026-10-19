@@ -35,7 +35,14 @@ jobs:
           install -m 700 -d ~/.ssh
           printf '%s\n' "$KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
           printf 'Host *\n  IdentityFile ~/.ssh/id_deploy\n  IdentitiesOnly yes\n  StrictHostKeyChecking accept-new\n' > ~/.ssh/config
-          ssh -o BatchMode=yes "$USER_NAME@$HOST" 'echo "SSH login OK as $(whoami) on $(hostname)"'
+          echo "Key fingerprint (compare with: ssh-keygen -lf ~/.ssh/biw_deploy.pub):"
+          ssh-keygen -lf ~/.ssh/id_deploy || { echo "::error::STAGING_SSH_KEY is not a valid private key (copy the whole file incl. BEGIN/END lines)"; exit 1; }
+          if ! ssh -o BatchMode=yes "$USER_NAME@$HOST" 'echo "SSH login OK as $(whoami) on $(hostname)"'; then
+            echo "--- details ---"
+            ssh -v -o BatchMode=yes "$USER_NAME@$HOST" true 2>&1 | grep -E "Connecting to|Server accepts|Offering public key|Authentications that can continue|Permission denied" || true
+            echo "::error::The server refused this key for user '$USER_NAME'. Add ~/.ssh/biw_deploy.pub to ~/.ssh/authorized_keys of exactly that user on the server."
+            exit 1
+          fi
 
       - name: Upload setup bundle
         run: |
