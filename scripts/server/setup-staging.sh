@@ -262,17 +262,29 @@ setup_docker() {
         "mkdir -p /etc/letsencrypt/live/$DOMAIN && cp /src/*.pem /etc/letsencrypt/live/$DOMAIN/"
       rm -rf "$tmpc"
     else
-      docker run --rm -v "$le_src:/etc/letsencrypt" -v "$web_src:$acme_root" certbot/certbot \
-        certonly --webroot -w "$acme_root" -d "$DOMAIN" \
-        --non-interactive --agree-tos --register-unsafely-without-email \
-        || die "certbot failed. Check that $DOMAIN points to this server (A record), then run the setup again. The site works over http://$DOMAIN meanwhile."
+      local try
+      for try in 1 2 3; do
+        if docker run --rm -v "$le_src:/etc/letsencrypt" -v "$web_src:$acme_root" certbot/certbot \
+             certonly --webroot -w "$acme_root" -d "$DOMAIN" \
+             --non-interactive --agree-tos --register-unsafely-without-email; then
+          break
+        fi
+        [ "$try" -lt 3 ] && { echo "certbot attempt $try failed, retrying in 60 s"; sleep 60; }
+      done
     fi
+    have_cert="$(docker exec "$px" sh -c "[ -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ] && echo yes || true")"
   fi
-  render > /tmp/biw-proxy-full.conf
-  apply_proxy_conf /tmp/biw-proxy-full.conf
-  CERT_STATE=ok
+  if [ "$have_cert" = yes ]; then
+    render > /tmp/biw-proxy-full.conf
+    apply_proxy_conf /tmp/biw-proxy-full.conf
+    CERT_STATE=ok
+  else
+    # Keep going: the site works over http; HTTPS can be added later by running the setup again
+    warn "no certificate yet — the site works over http://$DOMAIN. Run the setup again later for HTTPS."
+    echo "::warning::HTTPS certificate not issued yet (see certbot output above). The site works over http://$DOMAIN; run 'Setup staging server' again later."
+  fi
 
-  if [ -z "$TEST_MODE" ]; then
+  if [ -z "$TEST_MODE" ] && [ -n "$CERT_STATE" ]; then
     # Renew our certificate weekly (only ours) and reload the proxy
     cat > /etc/cron.d/bakedinweston-cert <<CRON
 # Renew the bakedinweston staging certificate (added by setup-staging.sh)
