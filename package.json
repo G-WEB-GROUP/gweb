@@ -1,0 +1,25 @@
+{
+  "name": "bakedinweston",
+  "version": "1.0.0",
+  "description": "Baked in Weston website (migration from GoDaddy)",
+  "scripts": {
+    "scrape": "node scripts/scrape.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G-WEB-GROUP/gweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/G-WEB-GROUP/gweb/issues"
+  },
+  "homepage": "https://github.com/G-WEB-GROUP/gweb#readme",
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "undici": "^6.29.1"
+  },
+  "private": true,
+  "type": "module"
+}
