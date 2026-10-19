@@ -1,0 +1,231 @@
+---
+import Icon from './Icon.astro';
+import { NAV, STOREFRONT } from '../lib/site';
+const path = Astro.url.pathname.replace(/\.html$/, '') || '/';
+---
+
+<header class="site-header" data-header>
+  <div class="wrap bar">
+    <a href="/" class="logo" aria-label="Baked in Weston — home">
+      <span class="logo-mark" aria-hidden="true">
+        <Icon name="wheat" />
+      </span>
+      <span class="logo-text">Baked <em>in</em> Weston</span>
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={item.href === path ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn--primary nav-order" href={STOREFRONT.menu}>
+        <Icon name="bag" /> Order online
+      </a>
+    </nav>
+
+    <a class="btn btn--primary bar-order" href={STOREFRONT.menu}>
+      <Icon name="bag" /> <span>Order<span class="hide-sm"> online</span></span>
+    </a>
+
+    <button class="burger" type="button" aria-expanded="false" aria-controls="site-nav" data-burger>
+      <span class="visually-hidden" data-burger-label>Open menu</span>
+      <Icon name="menu" class="i-open" />
+      <Icon name="close" class="i-close" />
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(251 246 238 / 92%);
+    backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .site-header.is-scrolled {
+    border-color: var(--crust);
+    box-shadow: 0 6px 20px rgb(42 23 12 / 6%);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: var(--header-h);
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .logo-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .logo-mark :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+  .logo-text {
+    font: 650 1.3rem/1 var(--font-serif);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .logo-text em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent-ink);
+  }
+
+  .nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav a:not(.btn) {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .nav a[aria-current='page']:not(.btn) {
+    color: var(--accent-ink);
+  }
+
+  .burger {
+    display: inline-grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .burger :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+  .burger :global(.i-close),
+  .burger[aria-expanded='true'] :global(.i-open) {
+    display: none;
+  }
+  .burger[aria-expanded='true'] :global(.i-close) {
+    display: block;
+  }
+  .bar-order {
+    min-height: 44px;
+    padding-inline: 1em;
+  }
+
+  /* Mobile: slide-down panel */
+  @media (max-width: 899px) {
+    .nav {
+      position: fixed;
+      inset: var(--header-h) 0 auto 0;
+      background: var(--cream);
+      border-top: 1px solid var(--crust);
+      box-shadow: 0 20px 40px rgb(42 23 12 / 15%);
+      padding: 8px var(--gutter) 24px;
+      display: none;
+      max-height: calc(100dvh - var(--header-h));
+      overflow-y: auto;
+    }
+    .nav.is-open {
+      display: block;
+    }
+    .nav li a:not(.btn) {
+      display: block;
+      padding: 14px 4px;
+      font-size: 1.15rem;
+      border-bottom: 1px solid var(--cream-2);
+    }
+    .nav-order {
+      margin-top: 18px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 420px) {
+    .bar {
+      gap: 6px;
+    }
+    .hide-sm,
+    .logo-mark {
+      display: none;
+    }
+    .logo-text {
+      font-size: 1.15rem;
+    }
+    .bar-order {
+      padding-inline: 0.85em;
+    }
+    .burger {
+      width: 44px;
+      height: 44px;
+      margin-right: -6px;
+    }
+  }
+
+  /* Desktop: inline menu */
+  @media (min-width: 900px) {
+    .burger,
+    .bar-order {
+      display: none;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav ul {
+      display: flex;
+      gap: 24px;
+    }
+    .nav a:not(.btn):hover {
+      color: var(--accent-ink);
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = header.querySelector<HTMLButtonElement>('[data-burger]')!;
+  const label = header.querySelector<HTMLElement>('[data-burger-label]')!;
+  const nav = document.getElementById('site-nav')!;
+
+  const setOpen = (open: boolean) => {
+    btn.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? 'Close menu' : 'Open menu';
+    nav.classList.toggle('is-open', open);
+  };
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  nav.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      btn.focus();
+    }
+  });
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

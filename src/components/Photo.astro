@@ -1,0 +1,44 @@
+---
+// Responsive photo: AVIF + WebP + JPEG fallback with srcset.
+// If the file is not in content/images/original/ yet, shows a placeholder of the same shape.
+import { Picture } from 'astro:assets';
+import { photo } from '../lib/images';
+
+interface Props {
+  file: string | null | undefined;
+  alt: string;
+  widths?: number[];
+  sizes: string;
+  ratio?: string; // CSS aspect-ratio for the frame, e.g. "4 / 5"
+  eager?: boolean; // only for the hero / LCP image
+  class?: string;
+}
+const { file, alt, widths = [400, 640, 960, 1280], sizes, ratio, eager = false, class: cls } = Astro.props;
+const img = photo(file);
+const usable = img ? widths.filter((w) => w <= img.width) : [];
+if (img && !usable.includes(img.width) && usable.length < widths.length) usable.push(img.width);
+---
+
+{
+  img ? (
+    <Picture
+      src={img}
+      alt={alt}
+      widths={usable}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      quality={72}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding={eager ? 'sync' : 'async'}
+      fetchpriority={eager ? 'high' : undefined}
+      class={cls}
+      pictureAttributes={{ class: cls, style: ratio ? `aspect-ratio:${ratio}` : undefined }}
+      style={ratio ? `aspect-ratio:${ratio};object-fit:cover;width:100%;height:100%` : undefined}
+    />
+  ) : (
+    <div class:list={['ph', cls]} style={ratio ? `aspect-ratio:${ratio}` : undefined} role="img" aria-label={alt}>
+      <span aria-hidden="true">Photo coming soon</span>
+    </div>
+  )
+}

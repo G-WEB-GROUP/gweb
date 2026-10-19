@@ -1,0 +1,74 @@
+---
+import Icon from '../Icon.astro';
+import Photo from '../Photo.astro';
+import home from '../../../content/home.json';
+import { photo } from '../../lib/images';
+import { sentenceCase } from '../../lib/text';
+import { STOREFRONT, CONTACT } from '../../lib/site';
+const item = home.about.items[3];
+---
+
+<section class="delivery" aria-labelledby="delivery-title">
+  <div class="wrap inner">
+    <span class="ic" aria-hidden="true"><Icon name="truck" /></span>
+    <div class="txt">
+      <h2 id="delivery-title">{sentenceCase(item.headline)}</h2>
+      <p>{home.hero.phoneLine}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--dark" href={STOREFRONT.menu}><Icon name="bag" /> Order online</a>
+      <a class="btn btn--ghost" href={CONTACT.phoneHref}><Icon name="phone" /> {item.cta?.text ?? 'Call Your Baker'}</a>
+    </div>
+    {
+      photo(item.image.file) && (
+        <Photo file={item.image.file} alt={item.image.alt} sizes="200px" widths={[200, 400]} ratio="1 / 1" class="d-img" />
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .delivery {
+    background: var(--accent);
+    color: var(--ink);
+    padding-block: clamp(32px, 5vw, 56px);
+  }
+  .inner {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .inner {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+  .ic {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--accent);
+  }
+  .ic :global(svg) {
+    width: 34px;
+    height: 34px;
+  }
+  h2 {
+    margin: 0 0 0.2em;
+    font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem);
+  }
+  .txt p {
+    margin: 0;
+    font-weight: 600;
+  }
+  .btn--ghost:hover {
+    background: var(--ink);
+    color: var(--accent);
+  }
+  .delivery :focus-visible {
+    outline-color: var(--ink);
+  }
+</style>

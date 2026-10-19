@@ -1,0 +1,174 @@
+{
+  "_help": "Home page gallery. Put photo files in content/images/original/ and list them here (file name, alt text). Entries whose file is missing are skipped.",
+  "title": "SOURDOUGH BREADS AND BAKED GOODS: A Visual of Baked in Weston",
+  "items": [
+    {
+      "file": "unnamed-3.jpg",
+      "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring."
+    },
+    {
+      "file": "chocolate.jpg",
+      "alt": "A rustic loaf of bread with a dark, cracked crust cooling on a wire rack."
+    },
+    {
+      "file": "bagel2.jpeg",
+      "alt": "Freshly baked golden-brown bagels cooling on a wire rack."
+    },
+    {
+      "file": "white_sandwich.jpg",
+      "alt": "Freshly baked golden brown bread loaf cooling on a rack."
+    },
+    {
+      "file": null,
+      "alt": "Freshly baked golden brown bagels on parchment paper.",
+      "note": "GoDaddy slide #4: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "Rustic loaf of oat-crusted bread on a checkered cloth.",
+      "note": "GoDaddy slide #5: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "Close-up of a rustic, crusty oat-topped bread loaf.",
+      "note": "GoDaddy slide #6: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "Close-up of a sugar-topped blueberry scone with a golden crust.",
+      "note": "GoDaddy slide #7: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "Close-up of freshly baked scones with raisins and sugar crystals.",
+      "note": "GoDaddy slide #8: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "A dark loaf of rye bread sprinkled with coriander seeds cooling on a wire rack.",
+      "note": "GoDaddy slide #9: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "Close-up of sliced chocolate bread on a wooden surface.",
+      "note": "GoDaddy slide #10: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #11: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #12: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #13: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #14: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #15: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #16: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #17: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #18: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #19: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #20: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #21: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #22: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #23: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #24: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #25: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #26: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #27: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #28: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #29: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #30: photo not available yet"
+    },
+    {
+      "file": null,
+      "alt": "",
+      "note": "GoDaddy slide #31: photo not available yet"
+    },
+    {
+      "file": "0.jpg",
+      "alt": "Close-up of rustic sourdough bread with airy crumb and crusty exterior."
+    },
+    {
+      "file": "0-1.jpg",
+      "alt": "Freshly baked artisanal bread with decorative scoring and golden crust."
+    },
+    {
+      "file": "image_123650291.JPG",
+      "alt": "Close-up of a rustic, crusty loaf of artisan bread."
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+---
+// Analytics consent. Google Analytics loads only after "Accept".
+// The choice is kept in localStorage; "Cookie settings" in the footer reopens the banner.
+import { SITE } from '../lib/site';
+---
+
+<div class="cookie" role="region" aria-label="Cookie consent" data-cookie hidden>
+  <div class="cookie-in">
+    <p>
+      <strong>This website uses cookies.</strong>
+      We use cookies to analyze website traffic and optimize your website experience. By accepting our use of
+      cookies, your data will be aggregated with all other user data.
+      <a href="/privacy-policy">Privacy Policy</a>
+    </p>
+    <div class="btn-row">
+      <button type="button" class="btn btn--ghost" data-consent="denied">Decline</button>
+      <button type="button" class="btn btn--dark" data-consent="granted">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ gaId: SITE.gaId }}>
+  (function () {
+    var KEY = 'biw-consent';
+    var box = document.querySelector('[data-cookie]');
+    function get() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+    function set(v) {
+      try { localStorage.setItem(KEY, v); } catch (e) {}
+    }
+    function loadGA() {
+      if (window.__gaLoaded) return;
+      window.__gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', gaId, { anonymize_ip: true });
+    }
+    var choice = get();
+    if (choice === 'granted') loadGA();
+    // Show after web fonts load, so the banner doesn't change height on screen (layout shift).
+    else if (!choice) {
+      var show = function () { box.hidden = false; };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(show, 300); });
+      else setTimeout(show, 1200);
+    }
+
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-consent]');
+      if (!b) return;
+      var v = b.getAttribute('data-consent');
+      set(v);
+      box.hidden = true;
+      if (v === 'granted') loadGA();
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cookie-settings]')) {
+        box.hidden = false;
+        box.querySelector('button').focus();
+      }
+    });
+  })();
+</script>
+
+<style>
+  .cookie {
+    position: fixed;
+    inset: auto 12px 12px 12px;
+    z-index: 60;
+    display: flex;
+    justify-content: center;
+  }
+  .cookie[hidden] {
+    display: none;
+  }
+  .cookie-in {
+    max-width: 760px;
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 50px rgb(42 23 12 / 22%);
+    padding: 18px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+    font-size: 0.95rem;
+  }
+  .cookie-in p {
+    margin: 0;
+    flex: 1 1 320px;
+  }
+  .cookie .btn {
+    min-height: 44px;
+    padding: 0.5em 1.2em;
+  }
+</style>

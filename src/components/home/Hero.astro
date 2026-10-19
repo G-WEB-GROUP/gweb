@@ -1,0 +1,126 @@
+---
+import Icon from '../Icon.astro';
+import Photo from '../Photo.astro';
+import home from '../../../content/home.json';
+import { STOREFRONT, CONTACT } from '../../lib/site';
+const { hero } = home;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Microbakery · Weston, CT</p>
+      <h1 id="hero-title">{hero.h1}</h1>
+      <p class="lead">{hero.subtitle}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href={STOREFRONT.signup}>
+          <Icon name="bag" /> Order online
+        </a>
+        <a class="btn btn--ghost btn--lg" href={CONTACT.phoneHref}>
+          <Icon name="phone" /> Call your baker
+        </a>
+      </div>
+      <ul class="facts" aria-label="Highlights">
+        <li><Icon name="clock" /> Baked the morning of sale</li>
+        <li><Icon name="calendar" /> By appointment, 7 days a week</li>
+        <li><Icon name="truck" /> Free local delivery for weekly customers</li>
+      </ul>
+    </div>
+    <div class="hero-media">
+      <Photo
+        file={hero.backgroundImage.file}
+        alt={hero.backgroundImage.alt}
+        widths={[420, 640, 900, 1160]}
+        sizes="(min-width: 1000px) 46vw, 92vw"
+        ratio="4 / 5"
+        eager
+        class="hero-img"
+      />
+      <p class="badge" aria-hidden="true"><span>100%</span> wild yeast sourdough</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(28px, 5vw, 72px) clamp(48px, 7vw, 96px);
+    background:
+      radial-gradient(1200px 500px at 85% 0%, var(--accent-soft), transparent 60%),
+      var(--cream);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+  .hero-copy .lead {
+    max-width: 38em;
+    margin-bottom: 1.6em;
+  }
+  .btn--lg {
+    min-height: 54px;
+    padding-inline: 1.6em;
+    font-size: 1.05rem;
+  }
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    gap: 10px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .facts li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .facts :global(svg) {
+    width: 22px;
+    height: 22px;
+    color: var(--accent-ink);
+    flex: none;
+  }
+  .hero-media {
+    position: relative;
+    max-width: 560px;
+    width: 100%;
+    justify-self: center;
+  }
+  .hero-media :global(.hero-img) {
+    border-radius: 28px 28px 200px 28px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .badge {
+    position: absolute;
+    left: -8px;
+    bottom: 28px;
+    margin: 0;
+    background: var(--ink);
+    color: var(--white);
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    box-shadow: var(--shadow);
+    max-width: 12ch;
+  }
+  .badge span {
+    display: block;
+    font: 650 1.6rem/1 var(--font-serif);
+    color: var(--accent);
+  }
+  @media (min-width: 1000px) {
+    .badge {
+      left: -28px;
+    }
+  }
+</style>

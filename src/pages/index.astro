@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Difference from '../components/home/Difference.astro';
+import Gallery from '../components/home/Gallery.astro';
+import About from '../components/home/About.astro';
+import Delivery from '../components/home/Delivery.astro';
+import Contact from '../components/home/Contact.astro';
+import seo from '../../content/seo.json';
+import { SITE, CONTACT } from '../lib/site';
+import { photo } from '../lib/images';
+import { getImage } from 'astro:assets';
+
+const heroSrc = photo('unnamed-3');
+const heroImg = heroSrc ? await getImage({ src: heroSrc, width: 1200, format: 'jpg' }) : undefined;
+
+const bakery = {
+  '@context': 'https://schema.org',
+  '@type': 'Bakery',
+  '@id': `${SITE.url}/#bakery`,
+  name: SITE.name,
+  url: `${SITE.url}/`,
+  description: SITE.ogDescription,
+  image: heroImg ? new URL(heroImg.src, SITE.url).href : undefined,
+  telephone: CONTACT.phoneE164,
+  email: CONTACT.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: CONTACT.street,
+    addressLocality: CONTACT.city,
+    addressRegion: CONTACT.region,
+    postalCode: CONTACT.zip,
+    addressCountry: 'US',
+  },
+  hasMap: CONTACT.mapsUrl,
+  additionalProperty: { '@type': 'PropertyValue', name: 'Visits', value: 'By appointment, 7 days a week' },
+  servesCuisine: 'Sourdough bread, bagels, vegan scones',
+  sameAs: [CONTACT.facebook, CONTACT.instagram],
+};
+---
+
+<Base title={seo.home.title} description={seo.home.description!} jsonLd={[bakery]}>
+  <Hero />
+  <Difference />
+  <Gallery />
+  <About />
+  <Delivery />
+  <Contact />
+</Base>

@@ -1,0 +1,302 @@
+---
+import Icon from '../Icon.astro';
+import home from '../../../content/home.json';
+import { CONTACT } from '../../lib/site';
+const c = home.contact;
+---
+
+<section class="section section--alt" id="contact" aria-labelledby="contact-title">
+  <div class="wrap grid">
+    <div class="info">
+      <p class="eyebrow">Say hello</p>
+      <h2 id="contact-title">{c.title}</h2>
+      <h3 class="intro-h">{c.introHeading}</h3>
+      <p>{c.introText}</p>
+
+      <div class="appt">
+        <Icon name="calendar" />
+        <div>
+          <p class="appt-t">{c.hoursTitle}</p>
+          <p>{c.hoursText}</p>
+        </div>
+      </div>
+
+      <ul class="ways" role="list">
+        <li>
+          <a href={CONTACT.phoneHref}>
+            <span class="w-ic"><Icon name="phone" /></span>
+            <span><span class="w-l">Call</span>{CONTACT.phoneDisplay}</span>
+          </a>
+        </li>
+        <li>
+          <a href={CONTACT.whatsapp} rel="noopener">
+            <span class="w-ic w-wa"><Icon name="chat" /></span>
+            <span><span class="w-l">WhatsApp</span>{c.whatsapp.text}</span>
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${CONTACT.email}`}>
+            <span class="w-ic"><Icon name="mail" /></span>
+            <span><span class="w-l">Email</span>{CONTACT.email}</span>
+          </a>
+        </li>
+        <li>
+          <a href={CONTACT.mapsUrl} rel="noopener">
+            <span class="w-ic"><Icon name="pin" /></span>
+            <span><span class="w-l">{c.businessName}</span>{c.address}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <h3>{c.formTitle}</h3>
+      <form action="/api/contact" method="post" enctype="multipart/form-data" data-contact novalidate>
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" />
+        </div>
+        <div class="field">
+          <label for="cf-email">Email <span aria-hidden="true">*</span><span class="visually-hidden">(required)</span></label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="cf-email-err" />
+          <p class="err" id="cf-email-err" hidden>Please enter a valid email address.</p>
+        </div>
+        <div class="field">
+          <label for="cf-msg">Message</label>
+          <textarea id="cf-msg" name="message" rows="5" maxlength="5000"></textarea>
+        </div>
+        <div class="field">
+          <label for="cf-file" class="file-l"><Icon name="paperclip" /> Attach Files <span class="hint">(optional, up to 5 MB: JPG, PNG, PDF)</span></label>
+          <input id="cf-file" name="attachment" type="file" accept=".jpg,.jpeg,.png,.webp,.heic,.pdf" />
+        </div>
+        <!-- Spam trap: hidden from people, bots fill it in -->
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="ts" value="" data-ts />
+        <button class="btn btn--primary" type="submit">{c.submit}</button>
+        <p class="status" role="status" aria-live="polite" data-status></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+  }
+  @media (min-width: 960px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+  .intro-h {
+    font-size: 1.3rem;
+    margin-top: 0.4em;
+  }
+  .appt {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px 18px;
+    margin: 20px 0 24px;
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: #f4e8da;
+  }
+  .appt > :global(svg) {
+    width: 30px;
+    height: 30px;
+    color: var(--accent);
+    flex: none;
+    margin-top: 2px;
+  }
+  .appt p {
+    margin: 0;
+  }
+  .appt-t {
+    font: 650 1.3rem/1.2 var(--font-serif);
+    color: var(--white);
+    margin-bottom: 2px !important;
+  }
+  .ways {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .ways a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    min-height: 56px;
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color 0.2s;
+  }
+  .ways a:hover {
+    border-color: var(--accent);
+  }
+  .w-l {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .w-ic {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    flex: none;
+  }
+  .w-wa {
+    background: #dcf5e3;
+    color: #136c2e;
+  }
+  .w-ic :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: 24px;
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: var(--shadow);
+  }
+  .field {
+    margin-bottom: 16px;
+  }
+  label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  input[type='text'],
+  input[type='email'],
+  textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    padding: 12px 14px;
+    min-height: 48px;
+    border: 1.5px solid #b9a48e;
+    border-radius: var(--radius-sm);
+    background: var(--white);
+  }
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--ink);
+  }
+  input[aria-invalid='true'] {
+    border-color: #b3261e;
+  }
+  .err {
+    color: #b3261e;
+    font-size: 0.95rem;
+    margin: 6px 0 0;
+  }
+  .file-l {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .file-l :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .hint {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  input[type='file'] {
+    font: inherit;
+    max-width: 100%;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .status {
+    margin: 14px 0 0;
+    font-weight: 600;
+  }
+  .status.ok {
+    color: #136c2e;
+  }
+  .status.bad {
+    color: #b3261e;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact]');
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const email = form.querySelector<HTMLInputElement>('#cf-email')!;
+    const err = form.querySelector<HTMLElement>('#cf-email-err')!;
+    const file = form.querySelector<HTMLInputElement>('#cf-file')!;
+    form.querySelector<HTMLInputElement>('[data-ts]')!.value = String(Date.now());
+
+    const setStatus = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.className = 'status ' + (ok ? 'ok' : 'bad');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const valid = email.checkValidity() && email.value.trim() !== '';
+      email.setAttribute('aria-invalid', String(!valid));
+      err.hidden = valid;
+      if (!valid) {
+        email.focus();
+        return;
+      }
+      if (file.files?.[0] && file.files[0].size > 5 * 1024 * 1024) {
+        setStatus('The attachment is larger than 5 MB.', false);
+        return;
+      }
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true;
+      setStatus('Sending…', true);
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'error');
+        form.reset();
+        setStatus('Thank you! Your message has been sent.', true);
+      } catch (ex) {
+        setStatus(
+          (ex as Error).message === 'error' || (ex as Error).message === 'Failed to fetch'
+            ? 'Sorry, the message could not be sent. Please call or email instead.'
+            : (ex as Error).message,
+          false,
+        );
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

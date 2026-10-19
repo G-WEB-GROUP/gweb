@@ -1,0 +1,204 @@
+---
+import Icon from './Icon.astro';
+import { NAV, LEGAL_NAV, STOREFRONT, CONTACT } from '../lib/site';
+import home from '../../content/home.json';
+import { sentenceCase } from '../lib/text';
+const [ctaTitle, ctaSub] = (() => {
+  const parts = home.banner.split(/(?<=\.)\s+/);
+  return [sentenceCase(parts.slice(0, 2).join(' ')), parts.slice(2).join(' ')];
+})();
+---
+
+<footer class="site-footer">
+  <div class="wrap cta">
+    <div>
+      <p class="cta-title">{ctaTitle}</p>
+      <p class="cta-sub">{ctaSub}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={STOREFRONT.menu}><Icon name="bag" /> Order online</a>
+      <a class="btn btn--light" href={CONTACT.phoneHref}><Icon name="phone" /> Call your baker</a>
+    </div>
+  </div>
+
+  <div class="wrap cols">
+    <div class="col brand">
+      <p class="f-logo">Baked <em>in</em> Weston</p>
+      <address>
+        <a href={CONTACT.mapsUrl}>{CONTACT.address}</a><br />
+        <a href={CONTACT.phoneHref}>{CONTACT.phoneDisplay}</a><br />
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+      </address>
+      <p class="appt"><Icon name="calendar" /> {home.contact.hoursTitle} · 7 days a week</p>
+    </div>
+
+    <nav class="col" aria-label="Footer">
+      <p class="f-head">Bakery</p>
+      <ul>
+        {NAV.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+        <li><a href={STOREFRONT.menu}>Storefront</a></li>
+      </ul>
+    </nav>
+
+    <nav class="col" aria-label="Legal">
+      <p class="f-head">Policies</p>
+      <ul>
+        {LEGAL_NAV.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+        <li><button type="button" class="linklike" data-cookie-settings>Cookie settings</button></li>
+      </ul>
+    </nav>
+
+    <div class="col">
+      <p class="f-head">{home.social.title}</p>
+      <ul class="social">
+        <li>
+          <a href={CONTACT.facebook} rel="noopener"><Icon name="facebook" /> Facebook</a>
+        </li>
+        <li>
+          <a href={CONTACT.instagram} rel="noopener"><Icon name="instagram" /> Instagram</a>
+        </li>
+        <li>
+          <a href={CONTACT.whatsapp} rel="noopener"><Icon name="chat" /> WhatsApp</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap legal">
+    <p>{home.footer.copyright}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: #efe2d2;
+    padding-top: clamp(40px, 6vw, 72px);
+  }
+  .site-footer a,
+  .linklike {
+    color: #efe2d2;
+    text-decoration: none;
+  }
+  .site-footer a:hover,
+  .linklike:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .site-footer :focus-visible {
+    outline-color: var(--accent);
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: clamp(32px, 5vw, 56px);
+    border-bottom: 1px solid rgb(239 226 210 / 18%);
+  }
+  .cta-title {
+    font: 600 clamp(1.5rem, 1.1rem + 1.6vw, 2.2rem) / 1.15 var(--font-serif);
+    color: var(--white);
+    margin: 0 0 0.3em;
+  }
+  .cta-sub {
+    margin: 0;
+    color: #d9c6b0;
+  }
+  .site-footer .btn--primary {
+    color: var(--ink);
+  }
+  .site-footer .btn--primary:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .btn--light {
+    border-color: #efe2d2;
+  }
+  .site-footer .btn--light:hover {
+    background: #efe2d2;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .cols {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+    padding-block: 40px;
+  }
+  @media (min-width: 640px) {
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1000px) {
+    .cols {
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    }
+  }
+  .f-logo {
+    font: 650 1.5rem/1 var(--font-serif);
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .f-logo em {
+    color: var(--accent);
+    font-weight: 400;
+  }
+  address {
+    font-style: normal;
+    line-height: 1.9;
+  }
+  .appt {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgb(237 106 41 / 18%);
+    color: var(--white);
+    font-weight: 600;
+  }
+  .appt :global(svg),
+  .social :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .f-head {
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 2.1;
+  }
+  .social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .linklike {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  .legal {
+    border-top: 1px solid rgb(239 226 210 / 18%);
+    padding-block: 20px;
+    font-size: 0.9rem;
+    color: #cbb69e;
+  }
+  .legal p {
+    margin: 0;
+  }
+</style>

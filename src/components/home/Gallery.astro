@@ -1,0 +1,211 @@
+---
+import { getImage } from 'astro:assets';
+import Photo from '../Photo.astro';
+import Icon from '../Icon.astro';
+import gallery from '../../../content/gallery.json';
+import { photo } from '../../lib/images';
+import { sentenceCase } from '../../lib/text';
+
+// Only photos that exist in content/images/original/ are shown.
+const items = await Promise.all(
+  gallery.items
+    .filter((i) => photo(i.file))
+    .map(async (i) => {
+      const big = await getImage({ src: photo(i.file)!, width: 1600, format: 'webp', quality: 80 });
+      return { ...i, big: big.src };
+    }),
+);
+const [kicker, title] = gallery.title.split(':').map((s) => s.trim());
+---
+
+<section class="section section--alt" aria-labelledby="gallery-title" id="gallery">
+  <div class="wrap">
+    <p class="eyebrow">{sentenceCase(kicker)}</p>
+    <h2 id="gallery-title">{title}</h2>
+
+    <ul class="grid" role="list">
+      {
+        items.map((it, i) => (
+          <li class:list={[i === 0 && 'wide']}>
+            <button type="button" class="thumb" data-index={i} data-src={it.big} data-alt={it.alt}>
+              <Photo
+                file={it.file}
+                alt={it.alt}
+                widths={[320, 480, 720]}
+                sizes={i === 0 ? '(min-width: 900px) 50vw, 92vw' : '(min-width: 900px) 25vw, 46vw'}
+                ratio="1 / 1"
+              />
+              <span class="visually-hidden">Open larger photo</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <dialog class="lightbox" aria-label="Photo viewer" data-lightbox>
+    <figure>
+      <img alt="" data-lb-img />
+      <figcaption data-lb-cap></figcaption>
+    </figure>
+    <button type="button" class="lb-btn lb-close" data-lb-close aria-label="Close"><Icon name="close" /></button>
+    <button type="button" class="lb-btn lb-prev" data-lb-prev aria-label="Previous photo"><Icon name="chevronL" /></button>
+    <button type="button" class="lb-btn lb-next" data-lb-next aria-label="Next photo"><Icon name="chevronR" /></button>
+    <p class="lb-count" aria-live="polite" data-lb-count></p>
+  </dialog>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .wide {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+  .thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: zoom-in;
+    background: var(--crust);
+  }
+  .thumb :global(img) {
+    transition: transform 0.4s;
+  }
+  .thumb:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(20 11 6 / 94%);
+    color: var(--white);
+  }
+  .lightbox::backdrop {
+    background: rgb(20 11 6 / 80%);
+  }
+  .lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+  figure {
+    margin: 0;
+    max-width: min(92vw, 1400px);
+    text-align: center;
+  }
+  figure img {
+    max-height: 80dvh;
+    width: auto;
+    margin-inline: auto;
+    border-radius: 8px;
+  }
+  figcaption {
+    margin-top: 12px;
+    color: #e8d9c7;
+  }
+  .lb-btn {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 14%);
+    color: var(--white);
+    cursor: pointer;
+  }
+  .lb-btn:hover {
+    background: rgb(255 255 255 / 26%);
+  }
+  .lb-btn :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+  .lb-btn:focus-visible {
+    outline-color: var(--accent);
+  }
+  .lb-close {
+    top: 16px;
+    right: 16px;
+  }
+  .lb-prev {
+    left: 12px;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .lb-next {
+    right: 12px;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .lb-count {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    margin: 0;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  if (dlg) {
+    const thumbs = [...document.querySelectorAll<HTMLButtonElement>('#gallery .thumb')];
+    const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const cap = dlg.querySelector<HTMLElement>('[data-lb-cap]')!;
+    const count = dlg.querySelector<HTMLElement>('[data-lb-count]')!;
+    let current = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      current = (i + thumbs.length) % thumbs.length;
+      const t = thumbs[current];
+      img.src = t.dataset.src!;
+      img.alt = t.dataset.alt || '';
+      cap.textContent = t.dataset.alt || '';
+      count.textContent = `${current + 1} / ${thumbs.length}`;
+    };
+    thumbs.forEach((t, i) =>
+      t.addEventListener('click', () => {
+        opener = t;
+        show(i);
+        dlg.showModal();
+        dlg.querySelector<HTMLButtonElement>('[data-lb-close]')!.focus();
+      }),
+    );
+    dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(current - 1));
+    dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(current + 1));
+    dlg.querySelector('[data-lb-close]')!.addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+    dlg.addEventListener('close', () => opener?.focus());
+    if (thumbs.length < 2) dlg.querySelectorAll<HTMLElement>('[data-lb-prev],[data-lb-next]').forEach((b) => (b.hidden = true));
+  }
+</script>

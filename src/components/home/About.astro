@@ -1,0 +1,243 @@
+---
+import { marked } from 'marked';
+import Photo from '../Photo.astro';
+import Icon from '../Icon.astro';
+import home from '../../../content/home.json';
+import * as why from '../../../content/blocks/why-sourdough.md';
+import { photo } from '../../lib/images';
+import { STOREFRONT } from '../../lib/site';
+
+const [whyItem, story, enjoy] = home.about.items;
+const cards = why.frontmatter.cards as { icon: string; title: string; text: string }[];
+const WhyBody = why.Content;
+
+// "My Story": the last two paragraphs are the Dan Woog link; render them as a press note.
+const storyParas = (story.bodyMarkdown ?? '').split(/\n\n+/);
+const linkIdx = storyParas.findIndex((p) => p.startsWith('Read more'));
+const storyMain = marked.parse(storyParas.slice(0, linkIdx).join('\n\n')) as string;
+const article = home.about.items[1].bodyMarkdown?.match(/\((https:\/\/06880danwoog\.com[^)]+)\)/)?.[1];
+const enjoyHtml = marked.parse(enjoy.bodyMarkdown ?? '') as string;
+---
+
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <p class="eyebrow">Our bread</p>
+    <h2 id="about-title">{home.about.title}</h2>
+
+    <!-- Why Sourdough -->
+    <article class="why" aria-labelledby="why-title">
+      <div class="why-head">
+        <div>
+          <h3 id="why-title" class="h-big">{whyItem.headline}</h3>
+          <ul class="cards" role="list">
+            {
+              cards.map((c) => (
+                <li class="card">
+                  <span class="card-ic">
+                    <Icon name={c.icon} />
+                  </span>
+                  <h4>{c.title}</h4>
+                  <p>{c.text}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        {
+          photo(whyItem.image.file) && (
+            <Photo
+              file={whyItem.image.file}
+              alt={whyItem.image.alt}
+              widths={[400, 640, 960, 1240]}
+              sizes="(min-width: 1000px) 40vw, 92vw"
+              ratio="4 / 5"
+              class="why-img"
+            />
+          )
+        }
+      </div>
+      <div class="why-body prose">
+        <WhyBody />
+      </div>
+      <a class="btn btn--primary" href={whyItem.cta?.href ?? STOREFRONT.menu}>
+        <Icon name="bag" /> {whyItem.cta?.text ?? 'View My Menu'}
+      </a>
+    </article>
+
+    <!-- My Story -->
+    <article class="story" aria-labelledby="story-title">
+      {
+        photo(story.image.file) && (
+          <Photo
+            file={story.image.file}
+            alt={story.image.alt}
+            widths={[360, 600, 900, 1200]}
+            sizes="(min-width: 900px) 38vw, 92vw"
+            ratio="3 / 4"
+            class="story-img"
+          />
+        )
+      }
+      <div>
+        <h3 id="story-title" class="h-big">{story.headline}</h3>
+        <div class="prose" set:html={storyMain} />
+        {
+          article && (
+            <p class="press">
+              Read more on Dan Woog's blog for Westport:{' '}
+              <a href={article} rel="noopener">
+                “Baked in Weston: Inna's nutritious, delicious sourdough” — 06880
+              </a>
+            </p>
+          )
+        }
+      </div>
+    </article>
+
+    <!-- Enjoying -->
+    <article class:list={['enjoy', !photo(enjoy.image.file) && 'enjoy--text']} aria-labelledby="enjoy-title">
+      <div>
+        <h3 id="enjoy-title" class="h-big">{enjoy.headline}</h3>
+        <div class="prose" set:html={enjoyHtml} />
+        <a class="btn btn--ghost" href={enjoy.cta?.href ?? STOREFRONT.menu}>
+          {enjoy.cta?.text ?? 'View My Menu'} <Icon name="arrow" />
+        </a>
+      </div>
+      {
+        photo(enjoy.image.file) && (
+          <Photo
+            file={enjoy.image.file}
+            alt={enjoy.image.alt}
+            sizes="(min-width: 900px) 40vw, 92vw"
+            ratio="4 / 3"
+            class="enjoy-img"
+          />
+        )
+      }
+    </article>
+  </div>
+</section>
+
+<style>
+  .h-big {
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+  }
+  article {
+    margin-top: clamp(40px, 6vw, 80px);
+  }
+  .why-head {
+    display: grid;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .why-head {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--crust);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card h4 {
+    font-size: 1.15rem;
+    margin: 12px 0 6px;
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+  .card-ic {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+  .card-ic :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+  .why-head :global(.why-img),
+  .story :global(.story-img),
+  .enjoy :global(.enjoy-img) {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .why-body {
+    margin: clamp(28px, 4vw, 48px) 0 28px;
+    columns: 1;
+  }
+  @media (min-width: 1000px) {
+    .why-body {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 56px;
+    }
+    .why-body > :global(p:first-child) {
+      grid-column: 1 / -1;
+      font: italic 500 1.35rem/1.5 var(--font-serif);
+      color: var(--ink);
+      max-width: 48ch;
+    }
+  }
+  .why-body :global(h3) {
+    font-size: 1.2rem;
+    margin: 1.2em 0 0.4em;
+    color: var(--accent-ink);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  @media (min-width: 1000px) {
+    .why-body :global(h3) {
+      grid-column: auto;
+    }
+  }
+  .story {
+    display: grid;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: center;
+    background: var(--white);
+    border-radius: 28px;
+    padding: clamp(20px, 4vw, 48px);
+    border: 1px solid var(--crust);
+  }
+  @media (min-width: 900px) {
+    .story {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+  .press {
+    margin-top: 1.2em;
+    padding: 14px 18px;
+    border-left: 4px solid var(--accent);
+    background: var(--cream);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .enjoy {
+    display: grid;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .enjoy:not(.enjoy--text) {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+</style>

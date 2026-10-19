@@ -5,7 +5,42 @@ Migration of bakedinweston.com from GoDaddy Website Builder to a static site on 
 ## Status
 
 - [x] Step 1: content inventory (`content/inventory.md`) — all 6 pages; photos listed, download pending
-- [ ] Step 2+: Astro site, design, deploy
+- [~] Step 2–3: Astro site + design — home page v1 ready for review (`docs/preview/`, Lighthouse in `docs/lighthouse/`)
+- [ ] Other pages, contact form backend, deploy
+
+## Site (Astro)
+
+Static site built with [Astro](https://astro.build). No client framework; a few small scripts
+(menu, gallery viewer, cookie consent, form).
+
+```bash
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # -> dist/
+npm run preview
+```
+
+| What | Where |
+|---|---|
+| Page texts | `content/home.json`, `content/faq.json`, `content/products.json`, `content/pages/*.md` |
+| "Why Sourdough?" layout (sub-headings, 4 cards) | `content/blocks/why-sourdough.md` |
+| Gallery (order, alt texts) | `content/gallery.json` |
+| Titles / descriptions | `content/seo.json` |
+| Photos | `content/images/original/` — referenced by file name without extension; missing photos are skipped |
+| Phone, email, Storefront links, menu | `src/lib/site.ts` |
+| Colors, fonts | `src/styles/global.css` (`:root` tokens) |
+
+Photos are converted at build time to AVIF + WebP + JPEG in several widths (`srcset`), lazy-loaded except the hero.
+Fonts (Fraunces + Source Sans 3, both Google Fonts) are self-hosted via Fontsource with `font-display: swap`:
+no request to Google, faster first paint.
+
+### Design notes
+
+- Brand orange `#ed6a29` is kept. White text on it fails contrast (3.1:1), so buttons use dark text (5.5:1);
+  orange text on cream uses the darker `#b4461a` (5.1:1).
+- Storefront links open in the **same tab**: ordering is the visitor's goal, and same-tab keeps the Back button
+  working on phones. Nothing from Simply Bread is embedded.
+- Google Analytics (`G-BF2FDR6KMM`) loads only after "Accept" in the cookie banner.
 
 ## Step 1: collect content from the current site
 
