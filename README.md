@@ -129,8 +129,11 @@ Preview at **https://bakedinweston.g-web.group** on the server that hosts horpyn
 Everything runs from GitHub Actions; nothing has to be typed on the server.
 
 1. DNS of `g-web.group`: `A  bakedinweston  <server IP>` (done). `bakedinweston.com` DNS is not touched.
-2. GitHub → Settings → Secrets and variables → Actions → New repository secret:
-   `STAGING_HOST`, `STAGING_USER`, `STAGING_PASSWORD` (or `STAGING_SSH_KEY` instead of the password).
+2. SSH key for GitHub (the server accepts keys only): `ssh-keygen -t ed25519 -f ~/.ssh/biw_deploy -N ""`,
+   then `ssh-copy-id -i ~/.ssh/biw_deploy.pub <user>@horpyna.g-web.group`.
+   GitHub → Settings → Secrets and variables → Actions → New repository secret:
+   `STAGING_HOST`, `STAGING_USER`, `STAGING_SSH_KEY` (content of `~/.ssh/biw_deploy`), and
+   `STAGING_PASSWORD` only if the user is not root and sudo asks for a password.
 3. Actions → **Setup staging server** → Run workflow (once). It runs `scripts/server/setup-staging.sh` with sudo:
    folders, nginx vhost (not `default_server`; checked with `nginx -t` and removed again if the check fails),
    Let's Encrypt certificate, contact form service on port 8787 (log-only until SMTP is set in

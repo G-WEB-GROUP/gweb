@@ -44,7 +44,7 @@ jobs:
           printf 'Host *\n  StrictHostKeyChecking accept-new\n' > ~/.ssh/config
           if [ -n "$KEY" ]; then
             printf '%s\n' "$KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
-            printf '  IdentityFile ~/.ssh/id_deploy\n' >> ~/.ssh/config
+            printf '  IdentityFile ~/.ssh/id_deploy\n  IdentitiesOnly yes\n' >> ~/.ssh/config
           elif [ -n "$PASS" ]; then
             sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
           fi
