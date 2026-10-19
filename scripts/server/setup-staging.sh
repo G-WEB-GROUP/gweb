@@ -29,7 +29,13 @@ die()  { printf '\033[31mERROR: %s\033[0m\n' "$*"; exit 1; }
 id "$DEPLOY_USER" >/dev/null 2>&1 || die "user $DEPLOY_USER does not exist"
 
 say "Checks"
-command -v nginx >/dev/null || die "nginx is not installed on this server. This setup expects nginx (no changes made)."
+if ! command -v nginx >/dev/null; then
+  echo "Web servers on this machine (who listens on ports 80/443):"
+  ss -ltnpH '( sport = :80 or sport = :443 )' 2>/dev/null || true
+  for b in apache2 httpd caddy traefik docker lsws litespeed; do command -v "$b" >/dev/null && echo "found: $b"; done
+  command -v docker >/dev/null && docker ps --format '{{.Names}}  {{.Image}}  {{.Ports}}' 2>/dev/null | head -20 || true
+  die "nginx is not installed on this server. This setup expects nginx (no changes made)."
+fi
 nginx -t >/dev/null 2>&1 || die "nginx config is already broken before our changes (nginx -t fails). No changes made."
 if [ -d /etc/nginx/sites-enabled ]; then
   AVAIL=/etc/nginx/sites-available; ENABLED=/etc/nginx/sites-enabled; LINK=1
