@@ -18,6 +18,7 @@
   "homepage": "https://github.com/G-WEB-GROUP/gweb#readme",
   "devDependencies": {
     "cheerio": "^1.2.0",
+    "turndown": "^7.2.4",
     "undici": "^6.29.1"
   },
   "private": true,

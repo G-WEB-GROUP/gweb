@@ -1,0 +1,41 @@
+{
+  "h1": "Sourdough Bread FAQ",
+  "items": [
+    {
+      "question": "Is My Bread Vegan?",
+      "answer": "Most loaves are utterly vegan, with the exception of the Chocolate Sourdough, which has chocolate nibs in it."
+    },
+    {
+      "question": "Is My Bread Gluten Friendly?",
+      "answer": "Baked in Weston's gluten friendly bread is designed to be enjoyed by many. The fermentation process in my starter breaks down the gluten content in the flour, so while the bread does contain traces of gluten, it is more suitable for those who are gluten-sensitive. However, Baked in Weston's sourdough bread is not recommended for individuals with severe allergies, such as celiac disease."
+    },
+    {
+      "question": "Is My Bread Always Fresh?",
+      "answer": "Baked In Weston's bread is always fresh! It is baked the morning of sale and delivered to you within a few hours after the bake."
+    },
+    {
+      "question": "Does My Bread Contain Oil?",
+      "answer": "All sourdough loaves are oil-free except for the Sourdough Sandwich Loaf, which contains cold-pressed extra virgin olive oil."
+    },
+    {
+      "question": "What Are The Ingredients in My Sourdough Bread?",
+      "answer": "It comes down to water, flour, and salt! The leaven is also made of water and flour."
+    },
+    {
+      "question": "What is Leaven (Also Referred to as Starter)?",
+      "answer": "Leaven is live! It is a mix of flour and water fermented over time. It is the collection of live microorganisms and naturally occurring wild yeasts that metabolize sugars in the flour. It can live for years if maintained properly, and can even be passed from one generation to another. My starter was created by me a few years ago. It is bubbly and very happy."
+    },
+    {
+      "question": "How Can I Preserve Sourdough Bread in the Best Possible Way?",
+      "answer": "Since my sourdough bread has no additives and no preservatives, it will go stale after about three days of countertop storage if not wrapped properly. You can wrap it in a natural material cloth or towel such as linen kitchen towel or cotton kitchen towel. This way, the bread will last up to three days on the kitchen countertop. If you want to store it longer, put it in a freezer in a freezer bag. It can be sliced or stored as a whole loaf in the freezer for up to four months."
+    },
+    {
+      "question": "Can I Store Sourdough Bread In The Refrigerator?",
+      "answer": "Generally, it is not recommended to store bread in the refrigerator. Bread stored in the refrigerator eventually will dry out, and the natural flavor of the bread won't be the same; it will be altered."
+    }
+  ],
+  "cta": {
+    "text": "Order Bread",
+    "originalHref": "https://bakedinweston.com/shop/olsPage=all"
+  }
+}

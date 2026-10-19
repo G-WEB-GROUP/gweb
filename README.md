@@ -4,7 +4,7 @@ Migration of bakedinweston.com from GoDaddy Website Builder to a static site on 
 
 ## Status
 
-- [ ] Step 1: content inventory (`content/inventory.md`)
+- [~] Step 1: content inventory (`content/inventory.md`) — 5 of 6 pages done; home page and images pending
 - [ ] Step 2+: Astro site, design, deploy
 
 ## Step 1: collect content from the current site
@@ -30,3 +30,23 @@ Output:
 | `content/inventory.draft.md` | generated draft, reviewed by hand into `content/inventory.md` |
 
 To parse a saved page offline: `node scripts/scrape.mjs --file page.html --url https://bakedinweston.com/faq`.
+
+## Content from saved pages
+
+When the site can't be crawled, save each page in the browser (Ctrl+S) into `content/source/<slug>.html`
+(`home`, `faq`, `all-products`, `privacy-policy`, `terms-and-conditions`, `return-policy`), then run:
+
+```bash
+node scripts/build-content.mjs
+```
+
+It writes the editable content files (text kept verbatim):
+
+| File | What |
+|---|---|
+| `content/seo.json` | title, description, OG/Twitter, theme-color per page |
+| `content/faq.json` | FAQ questions and answers |
+| `content/products.json` | products: name, ingredients, image URL, alt |
+| `content/pages/*.md` | Privacy Policy, Terms and Conditions, Return Policy |
+
+`scripts/extract-sections.mjs <file> <DATA_AID>…` prints any GoDaddy block as Markdown.

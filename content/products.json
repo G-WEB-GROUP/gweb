@@ -1,0 +1,125 @@
+{
+  "h1": "Sourdough Products: Artisan Baked Goods from Baked in Weston",
+  "products": [
+    {
+      "name": "White Sourdough",
+      "ingredients": "Bread flour, water, salt, leaven.",
+      "caption": "White Sourdough. Bread flour, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/image_123650291.JPG",
+      "imageFile": "image_123650291.JPG",
+      "alt": "White Sourdough"
+    },
+    {
+      "name": "Whole Wheat Sourdough",
+      "ingredients": "Whole wheat flour, all-purpose flour, water, salt, leaven,",
+      "caption": "Whole Wheat Sourdough. Whole wheat flour, all-purpose flour, water, salt, leaven,",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/unnamed-3.jpg",
+      "imageFile": "unnamed-3.jpg",
+      "alt": "Two beautifully baked artisan sourdough loaves with decorative scoring."
+    },
+    {
+      "name": "Country Sourdough",
+      "ingredients": "All-purpose flour, whole wheat flour, water, salt, leaven,",
+      "caption": "Country Sourdough. All-purpose flour, whole wheat flour, water, salt, leaven,",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/Classic.jpg",
+      "imageFile": "Classic.jpg",
+      "alt": "Country Sourdough"
+    },
+    {
+      "name": "Rye Sourdough",
+      "ingredients": "Organic rye flour, bread flour, organic barley malt syrup, water, salt, leaven.",
+      "caption": "Rye Sourdough. Organic rye flour, bread flour, organic barley malt syrup, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/jewish_rye.jpg",
+      "imageFile": "jewish_rye.jpg",
+      "alt": "Rye Sourdough"
+    },
+    {
+      "name": "White Sandwich Sourdough",
+      "ingredients": "Bread flour, raw honey, extra virgin cold pressed olive oil, water, salt, leaven.",
+      "caption": "White Sandwich Sourdough. Bread flour, raw honey, extra virgin cold pressed olive oil, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/white_sandwich.jpg",
+      "imageFile": "white_sandwich.jpg",
+      "alt": "White Sandwich Sourdough"
+    },
+    {
+      "name": "Chocolate Sourdough",
+      "ingredients": "All-purpose flour, whole wheat flour, semi-sweet dark chocolate nibs, water, salt, leaven.",
+      "caption": "Chocolate Sourdough. All-purpose flour, whole wheat flour, semi-sweet dark chocolate nibs, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/chocolate.jpg",
+      "imageFile": "chocolate.jpg",
+      "alt": "Chocolate Sourdough"
+    },
+    {
+      "name": "Walnut Cranberry Sourdough",
+      "ingredients": "All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
+      "caption": "Walnut Cranberry Sourdough. All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
+      "imageFile": "Cinnamon Raisin.jpg",
+      "alt": "Close-up of a freshly baked artisan sourdough bread with a decorative crust."
+    },
+    {
+      "name": "Double Chocolate Espresso Sourdough",
+      "ingredients": "Bread flour, dark semi-sweet chocolate nibs, cocoa powder, brown sugar, espresso, water, salt, leaven,",
+      "caption": "Double Chocolate Espresso Sourdough. Bread flour, dark semi-sweet chocolate nibs, cocoa powder, brown sugar, espresso, water, salt, leaven,",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/double%20chocolate%20espresso.jpg",
+      "imageFile": "double chocolate espresso.jpg",
+      "alt": "Double Chocolate Espresso Sourdough"
+    },
+    {
+      "name": "Cinnamon Raisin Sourdough",
+      "ingredients": "All-purpose flour, whole wheat flour, organic Saigon cinnamon, organic raisins, organic brown sugar, water, salt, leaven,",
+      "caption": "Cinnamon Raisin Sourdough. All-purpose flour, whole wheat flour, organic Saigon cinnamon, organic raisins, organic brown sugar, water, salt, leaven,",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
+      "imageFile": "Cinnamon Raisin.jpg",
+      "alt": "Cinnamon Raisin Sourdough"
+    },
+    {
+      "name": "Borodinsky Rye Sourdough",
+      "ingredients": "Organic stone ground rye flour, whole wheat flour, raw honey, fermented ground and dry rye malt, ground coriander, water, salt, rye leaven.",
+      "caption": "Borodinsky Rye Sourdough. Organic stone ground rye flour, whole wheat flour, raw honey, fermented ground and dry rye malt, ground coriander, water, salt, rye leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/borodinsky.jpg",
+      "imageFile": "borodinsky.jpg",
+      "alt": "Borodinsky Rye Sourdough"
+    },
+    {
+      "name": "Sourdough Ciabatta Rolls (8)",
+      "ingredients": "Bread flour, water, salt, leaven.",
+      "caption": "Sourdough Ciabatta Rolls (8). Bread flour, water, salt, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ciabatta%20rolls.jpg",
+      "imageFile": "ciabatta rolls.jpg",
+      "alt": "Sourdough Ciabatta Rolls"
+    },
+    {
+      "name": "Sourdough Vegan Scones with Tart Cherries",
+      "ingredients": "All-purpose flour, organic sugar, pink sea salt, organic almond milk, vanilla extract, organic coconut oil, tart dried cherries, leaven.",
+      "caption": "Sourdough Vegan Scones with Tart Cherries. All-purpose flour, organic sugar, pink sea salt, organic almond milk, vanilla extract, organic coconut oil, tart dried cherries, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/tart%20cherry%20scones.jpg",
+      "imageFile": "tart cherry scones.jpg",
+      "alt": "Sourdough Vegan Scones with Tart Cherries"
+    },
+    {
+      "name": "Sourdough Vegan Vanilla Scones",
+      "ingredients": "All-purpose flour, organic sugar, pink sea salt, organic almond milk, vanilla extract, organic coconut oil, leaven.",
+      "caption": "Sourdough Vegan Vanilla Scones. All-purpose flour, organic sugar, pink sea salt, organic almond milk, vanilla extract, organic coconut oil, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/vanilla%20scones.jpg",
+      "imageFile": "vanilla scones.jpg",
+      "alt": "Sourdough Vegan Vanilla Scones"
+    },
+    {
+      "name": "Sourdough Vegan Scones with Cranberries",
+      "ingredients": "All-purpose flour, organic sugar, pink sea salt, vanilla extract, organic almond milk, dried cranberries, organic coconut oil, leaven.",
+      "caption": "Sourdough Vegan Scones with Cranberries. All-purpose flour, organic sugar, pink sea salt, vanilla extract, organic almond milk, dried cranberries, organic coconut oil, leaven.",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/cranberry%20scones.jpg",
+      "imageFile": "cranberry scones.jpg",
+      "alt": "Sourdough Vegan Scones with Cranberries"
+    },
+    {
+      "name": "Sourdough Bagels",
+      "ingredients": "Bread flour, water, raw honey, salt, leaven,",
+      "caption": "Sourdough Bagels. Bread flour, water, raw honey, salt, leaven,",
+      "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/bagels-85a777e.jpg",
+      "imageFile": "bagels-85a777e.jpg",
+      "alt": "Sourdough Bagels"
+    }
+  ]
+}
