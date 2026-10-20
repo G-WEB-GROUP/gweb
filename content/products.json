@@ -63,8 +63,8 @@
       "ingredients": "Bread flour, dark semi-sweet chocolate nibs, cocoa powder, brown sugar, espresso, water, salt, leaven,",
       "caption": "Double Chocolate Espresso Sourdough. Bread flour, dark semi-sweet chocolate nibs, cocoa powder, brown sugar, espresso, water, salt, leaven,",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/double%20chocolate%20espresso.jpg",
-      "imageFile": "double chocolate espresso.jpg",
-      "alt": "Double Chocolate Espresso Sourdough"
+      "imageFile": "double-chocolate-espresso-sourdough.webp",
+      "alt": "Sliced double chocolate espresso sourdough with melted chocolate pieces in the crumb."
     },
     {
       "name": "Cinnamon Raisin Sourdough",
@@ -79,16 +79,16 @@
       "ingredients": "Organic stone ground rye flour, whole wheat flour, raw honey, fermented ground and dry rye malt, ground coriander, water, salt, rye leaven.",
       "caption": "Borodinsky Rye Sourdough. Organic stone ground rye flour, whole wheat flour, raw honey, fermented ground and dry rye malt, ground coriander, water, salt, rye leaven.",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/borodinsky.jpg",
-      "imageFile": "borodinsky.jpg",
-      "alt": "Borodinsky Rye Sourdough"
+      "imageFile": "borodinsky.webp",
+      "alt": "Dark Borodinsky rye loaf topped with coriander seeds on a cooling rack."
     },
     {
       "name": "Sourdough Ciabatta Rolls (8)",
       "ingredients": "Bread flour, water, salt, leaven.",
       "caption": "Sourdough Ciabatta Rolls (8). Bread flour, water, salt, leaven.",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ciabatta%20rolls.jpg",
-      "imageFile": "ciabatta rolls.jpg",
-      "alt": "Sourdough Ciabatta Rolls"
+      "imageFile": "ciabatta-rolls.webp",
+      "alt": "Flour-dusted sourdough ciabatta rolls on a cooling rack."
     },
     {
       "name": "Sourdough Vegan Scones with Tart Cherries",
