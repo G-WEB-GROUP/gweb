@@ -71,8 +71,8 @@
       "ingredients": "All-purpose flour, whole wheat flour, organic Saigon cinnamon, organic raisins, organic brown sugar, water, salt, leaven,",
       "caption": "Cinnamon Raisin Sourdough. All-purpose flour, whole wheat flour, organic Saigon cinnamon, organic raisins, organic brown sugar, water, salt, leaven,",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/Cinnamon%20Raisin.jpg",
-      "imageFile": "Cinnamon Raisin.jpg",
-      "alt": "Cinnamon Raisin Sourdough"
+      "imageFile": "cinnamon-raisin-sourdough.webp",
+      "alt": "Cinnamon raisin sourdough loaf with leaf scoring."
     },
     {
       "name": "Borodinsky Rye Sourdough",
@@ -119,7 +119,7 @@
       "ingredients": "Bread flour, water, raw honey, salt, leaven,",
       "caption": "Sourdough Bagels. Bread flour, water, raw honey, salt, leaven,",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/bagels-85a777e.jpg",
-      "imageFile": "bagels-85a777e.jpg",
+      "imageFile": "sourdough-bagels.webp",
       "alt": "Sourdough Bagels"
     }
   ]
