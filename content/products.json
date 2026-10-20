@@ -15,9 +15,8 @@
       "ingredients": "Whole wheat flour, all-purpose flour, water, salt, leaven,",
       "caption": "Whole Wheat Sourdough. Whole wheat flour, all-purpose flour, water, salt, leaven,",
       "image": null,
-      "imageFile": null,
-      "alt": "",
-      "note": "GoDaddy showed another product's photo here; add the correct photo file and set imageFile."
+      "imageFile": "whole-wheat-sourdough.webp",
+      "alt": "Whole wheat sourdough loaves with leaf scoring on a wooden board."
     },
     {
       "name": "Country Sourdough",
@@ -25,7 +24,7 @@
       "caption": "Country Sourdough. All-purpose flour, whole wheat flour, water, salt, leaven,",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/Classic.jpg",
       "imageFile": "Classic.jpg",
-      "alt": "Country Sourdough"
+      "alt": "Country sourdough loaf with an open, golden ear in a cast-iron pot."
     },
     {
       "name": "Rye Sourdough",
@@ -33,7 +32,7 @@
       "caption": "Rye Sourdough. Organic rye flour, bread flour, organic barley malt syrup, water, salt, leaven.",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/jewish_rye.jpg",
       "imageFile": "jewish_rye.jpg",
-      "alt": "Rye Sourdough"
+      "alt": "Dark-crusted rye sourdough loaf topped with caraway seeds."
     },
     {
       "name": "White Sandwich Sourdough",
@@ -41,7 +40,7 @@
       "caption": "White Sandwich Sourdough. Bread flour, raw honey, extra virgin cold pressed olive oil, water, salt, leaven.",
       "image": "https://img1.wsimg.com/isteam/ip/32e560b8-239c-4e88-bfc4-1cf69e9d7d19/ols/white_sandwich.jpg",
       "imageFile": "white_sandwich.jpg",
-      "alt": "White Sandwich Sourdough"
+      "alt": "Golden white sandwich sourdough loaf cooling on a wire rack."
     },
     {
       "name": "Chocolate Sourdough",
@@ -56,9 +55,8 @@
       "ingredients": "All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
       "caption": "Walnut Cranberry Sourdough. All-purpose flour, whole wheat flour, walnuts, dried cranberries, water, salt, leaven.",
       "image": null,
-      "imageFile": null,
-      "alt": "",
-      "note": "GoDaddy showed another product's photo here; add the correct photo file and set imageFile."
+      "imageFile": "walnut-cranberry-sourdough.webp",
+      "alt": "Walnut cranberry sourdough loaf with leaf scoring and dark baked cranberries."
     },
     {
       "name": "Double Chocolate Espresso Sourdough",
