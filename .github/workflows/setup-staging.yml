@@ -11,6 +11,11 @@ name: Setup staging server
 
 on:
   workflow_dispatch:
+    inputs:
+      domain:
+        description: 'Preview address (its DNS must point to the server)'
+        default: bakedinweston.g-web.group
+        type: string
 
 jobs:
   setup:
@@ -21,6 +26,7 @@ jobs:
       USER_NAME: ${{ secrets.STAGING_USER }}
       KEY: ${{ secrets.STAGING_SSH_KEY }}
       SUDO_PASS: ${{ secrets.STAGING_PASSWORD }}
+      DOMAIN: ${{ inputs.domain || 'bakedinweston.g-web.group' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -29,6 +35,7 @@ jobs:
           for v in HOST USER_NAME KEY; do
             [ -n "${!v}" ] || { echo "::error::Secret missing: STAGING_HOST, STAGING_USER and STAGING_SSH_KEY are required"; exit 1; }
           done
+          [[ "$DOMAIN" =~ ^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]] || { echo "::error::Invalid domain: $DOMAIN"; exit 1; }
 
       - name: SSH key
         run: |
@@ -56,7 +63,7 @@ jobs:
         run: |
           ssh "$USER_NAME@$HOST" \
             "set -e; rm -rf /tmp/biw-setup && mkdir -p /tmp/biw-setup && tar xzf /tmp/biw-setup.tgz -C /tmp/biw-setup && rm /tmp/biw-setup.tgz; \
-             if [ \"\$(id -u)\" = 0 ]; then DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
-             elif sudo -n true 2>/dev/null; then sudo env DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
-             else sudo -S -p '' env DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; fi; \
+             if [ \"\$(id -u)\" = 0 ]; then DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
+             elif sudo -n true 2>/dev/null; then sudo env DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
+             else sudo -S -p '' env DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; fi; \
              rm -rf /tmp/biw-setup" <<< "$SUDO_PASS"
