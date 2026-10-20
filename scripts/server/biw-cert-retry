@@ -1,0 +1,30 @@
+#!/bin/sh
+# Hourly (cron) until it succeeds: get the staging HTTPS certificate with the certbot image,
+# then switch the proxy to the HTTPS config. Installed by setup-staging.sh (Docker layout).
+# Settings: /etc/bakedinweston/cert.env (DOMAIN PX LE_SRC WEB_SRC ACME_ROOT CONFD)
+set -eu
+. /etc/bakedinweston/cert.env
+log() { echo "$(date -u +%FT%TZ) $*" >> /var/log/bakedinweston-cert.log; }
+
+if ! docker exec "$PX" test -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem"; then
+  if ! docker run --rm -v "$LE_SRC:/etc/letsencrypt" -v "$WEB_SRC:$ACME_ROOT" certbot/certbot \
+        certonly --webroot -w "$ACME_ROOT" -d "$DOMAIN" \
+        --non-interactive --agree-tos --register-unsafely-without-email -q >/dev/null 2>&1; then
+    log "certificate for $DOMAIN not issued yet, will retry"
+    exit 0
+  fi
+fi
+
+# Certificate exists: switch to the HTTPS config, but only if nginx accepts it
+cp "$CONFD/bakedinweston.conf" /tmp/biw-prev.conf
+cp /opt/bakedinweston/proxy-full.conf "$CONFD/bakedinweston.conf"
+if docker exec "$PX" nginx -t >/dev/null 2>&1; then
+  docker exec "$PX" nginx -s reload
+  echo "17 4 * * 1 root docker run --rm -v $LE_SRC:/etc/letsencrypt -v $WEB_SRC:$ACME_ROOT certbot/certbot renew --cert-name $DOMAIN -q && docker exec $PX nginx -s reload" \
+    > /etc/cron.d/bakedinweston-cert
+  rm -f /etc/cron.d/bakedinweston-cert-retry
+  log "certificate for $DOMAIN issued, HTTPS enabled"
+else
+  cp /tmp/biw-prev.conf "$CONFD/bakedinweston.conf"
+  log "HTTPS config rejected by nginx -t, kept the http config"
+fi

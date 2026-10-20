@@ -1,0 +1,48 @@
+# Lighthouse (mobile) for every page of a deployed site. Run by hand:
+# Actions -> "Lighthouse" -> Run workflow -> base URL.
+# Reports are attached to the run as an artifact ("lighthouse-reports"); the summary table is on the run page.
+name: Lighthouse
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Site address, without a trailing slash'
+        default: https://bakedinweston.g-web.group
+        type: string
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BASE: ${{ inputs.base_url }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Lighthouse
+        run: |
+          [[ "$BASE" =~ ^https?://[a-z0-9.-]+(:[0-9]+)?$ ]] || { echo "::error::Invalid base URL"; exit 1; }
+          npm i -g lighthouse@12 >/dev/null
+          mkdir -p reports
+          echo "| Page | Performance | Accessibility | Best Practices | SEO | LCP | CLS |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|---|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          for p in / /all-products /faq /privacy-policy /terms-and-conditions /return-policy; do
+            n=$([ "$p" = "/" ] && echo home || echo "${p#/}")
+            lighthouse "$BASE$p" --form-factor=mobile --quiet \
+              --chrome-flags="--headless=new --no-sandbox" \
+              --output=json --output=html --output-path="reports/$n" || true
+            node -e '
+              const d = require("./reports/" + process.argv[1] + ".report.json");
+              const c = d.categories, s = (k) => Math.round(c[k].score * 100);
+              console.log(`| ${process.argv[2]} | ${s("performance")} | ${s("accessibility")} | ${s("best-practices")} | ${s("seo")} | ${d.audits["largest-contentful-paint"].displayValue} | ${d.audits["cumulative-layout-shift"].displayValue} |`);
+            ' "$n" "$p" >> "$GITHUB_STEP_SUMMARY" || echo "| $p | failed | | | | | |" >> "$GITHUB_STEP_SUMMARY"
+          done
+          cat "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: reports/

@@ -250,6 +250,8 @@ setup_docker() {
     render | awk '/#BIW_HTTPS_START/{exit} {print}' \
       | sed 's#^    location / { return 301 https://$host$request_uri; }   \#BIW_HTTP_LOCATION#    location / { resolver 127.0.0.11 valid=30s ipv6=off; set $biw_upstream http://biw-web:80; proxy_pass $biw_upstream; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; client_max_body_size 6m; }#' \
       > /tmp/biw-proxy-http.conf
+    # Until there is a certificate, refuse HTTPS for this name (otherwise the proxy would show its default site)
+    printf '\nserver {\n    listen 443 ssl;\n    server_name %s;\n    ssl_reject_handshake on;\n}\n' "$DOMAIN" >> /tmp/biw-proxy-http.conf
     grep -q 'proxy_pass $biw_upstream' /tmp/biw-proxy-http.conf || die "could not build the HTTP-only proxy config"
     apply_proxy_conf /tmp/biw-proxy-http.conf
 
@@ -274,14 +276,26 @@ setup_docker() {
     fi
     have_cert="$(docker exec "$px" sh -c "[ -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ] && echo yes || true")"
   fi
+  mkdir -p /opt/bakedinweston
+  render > /opt/bakedinweston/proxy-full.conf
   if [ "$have_cert" = yes ]; then
-    render > /tmp/biw-proxy-full.conf
-    apply_proxy_conf /tmp/biw-proxy-full.conf
+    apply_proxy_conf /opt/bakedinweston/proxy-full.conf
     CERT_STATE=ok
+    rm -f /etc/cron.d/bakedinweston-cert-retry
   else
-    # Keep going: the site works over http; HTTPS can be added later by running the setup again
-    warn "no certificate yet — the site works over http://$DOMAIN. Run the setup again later for HTTPS."
-    echo "::warning::HTTPS certificate not issued yet (see certbot output above). The site works over http://$DOMAIN; run 'Setup staging server' again later."
+    # Keep going: the site works over http; the server keeps trying hourly and enables HTTPS by itself
+    cat > /etc/bakedinweston/cert.env <<ENV
+DOMAIN=$DOMAIN
+PX=$px
+LE_SRC=$le_src
+WEB_SRC=$web_src
+ACME_ROOT=$acme_root
+CONFD=$confd
+ENV
+    install -m 755 "$SRC/biw-cert-retry" /usr/local/bin/biw-cert-retry
+    echo "23 * * * * root /usr/local/bin/biw-cert-retry" > /etc/cron.d/bakedinweston-cert-retry
+    warn "no certificate yet — the site works over http://$DOMAIN; the server retries every hour and turns on HTTPS by itself."
+    echo "::warning::HTTPS certificate not issued yet. The site works over http://$DOMAIN. The server retries every hour (log: /var/log/bakedinweston-cert.log) and enables HTTPS automatically."
   fi
 
   if [ -z "$TEST_MODE" ] && [ -n "$CERT_STATE" ]; then
