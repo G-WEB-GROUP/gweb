@@ -68,6 +68,7 @@ const [ctaTitle, ctaSub] = (() => {
 
   <div class="wrap legal">
     <p>{home.footer.copyright}</p>
+    <p class="credit">Developed by <a href="https://g-web.group/en" rel="noopener">G-WEB.GROUP</a></p>
   </div>
 </footer>
 
@@ -205,7 +206,22 @@ const [ctaTitle, ctaSub] = (() => {
     font-size: 0.9rem;
     color: #cbb69e;
   }
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 6px 24px;
+  }
   .legal p {
     margin: 0;
+  }
+  .credit a {
+    color: #efe2d2;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .credit a:hover {
+    color: var(--accent);
   }
 </style>
