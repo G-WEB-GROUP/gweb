@@ -1,0 +1,33 @@
+# Read-only check of the contact form on the staging server: container status, settings
+# (password hidden), an SMTP login test and the last log lines (emails hidden).
+# Actions -> "Diagnose contact form" -> Run workflow. Changes nothing on the server.
+name: Diagnose contact form
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      HOST: ${{ secrets.STAGING_HOST }}
+      USER_NAME: ${{ secrets.STAGING_USER }}
+      KEY: ${{ secrets.STAGING_SSH_KEY }}
+      SUDO_PASS: ${{ secrets.STAGING_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          printf 'Host *\n  IdentityFile ~/.ssh/id_deploy\n  IdentitiesOnly yes\n  StrictHostKeyChecking accept-new\n' > ~/.ssh/config
+
+      - name: Check the contact form service
+        run: |
+          scp scripts/server/diagnose-contact.sh "$USER_NAME@$HOST:/tmp/biw-diagnose.sh"
+          ssh "$USER_NAME@$HOST" \
+            "if [ \"\$(id -u)\" = 0 ]; then bash /tmp/biw-diagnose.sh; \
+             elif sudo -n true 2>/dev/null; then sudo bash /tmp/biw-diagnose.sh; \
+             else sudo -S -p '' bash /tmp/biw-diagnose.sh; fi; rm -f /tmp/biw-diagnose.sh" <<< "$SUDO_PASS"
