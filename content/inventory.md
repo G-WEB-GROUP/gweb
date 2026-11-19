@@ -160,7 +160,7 @@ Other image issues:
 | Address | 24 Farrell Road, Weston, Connecticut 06883, United States (legal pages: 24 Farrell Rd, Weston, CT, 06883) | home, privacy |
 | Phone | 1.914.523.9904 (`tel:19145239904`; About button uses `tel:914-523-9904`) | home |
 | WhatsApp | https://wa.me/19145239904 | home |
-| Email shown on home | sales@bakedinweston.com | home |
+| Email shown on home | inna@bakedinweston.com (was sales@, changed at owner request) | home |
 | Email in legal texts / form recipient | inna@bakedinweston.com | legal pages, decision 1 |
 | Hours | By Appointment — "Please make an appointment before you visit. Open 7 days a week." | home |
 | Facebook | https://www.facebook.com/428263420363860 | home |
