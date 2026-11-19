@@ -41,6 +41,22 @@ jobs:
             ' "$n" "$p" >> "$GITHUB_STEP_SUMMARY" || echo "| $p | failed | | | | | |" >> "$GITHUB_STEP_SUMMARY"
           done
           cat "$GITHUB_STEP_SUMMARY"
+          echo "== Details for pages under 90"
+          for f in reports/*.report.json; do
+            node -e '
+              const d = require("./" + process.argv[1]), a = d.audits;
+              if (d.categories.performance.score >= 0.9) process.exit(0);
+              console.log("--", d.finalDisplayedUrl, "perf", Math.round(d.categories.performance.score * 100));
+              for (const k of ["first-contentful-paint","largest-contentful-paint","total-blocking-time","speed-index","server-response-time"])
+                console.log("  ", k, a[k] && a[k].displayValue);
+              const el = a["largest-contentful-paint-element"];
+              if (el && el.details) console.log("   LCP element:", JSON.stringify(el.details).slice(0, 400));
+              Object.values(a).filter(x => x.score !== null && x.score < 0.9 && x.details && x.details.type === "opportunity")
+                .forEach(x => console.log("   opportunity:", x.id, x.displayValue || ""));
+              (a["network-requests"].details.items || []).filter(r => r.transferSize > 30000)
+                .forEach(r => console.log("   big request:", Math.round(r.transferSize/1024) + "KB", r.url.slice(0, 120)));
+            ' "$f" || true
+          done
 
       - uses: actions/upload-artifact@v4
         with:
