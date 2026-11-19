@@ -23,7 +23,9 @@ const MAIL_FROM = process.env.MAIL_FROM || process.env.SMTP_USER || 'website@bak
 const MAX_FILE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = /^(image\/(jpeg|png|webp|heic|heif)|application\/pdf)$/;
 const MIN_FILL_MS = 3000;
-const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
+// Only messages that pass the checks and go out as email are counted (typos and failed tries are not).
+const RATE = { max: Number(process.env.RATE_MAX || 5), windowMs: 10 * 60 * 1000 };
+const GLOBAL_RATE = { max: Number(process.env.RATE_GLOBAL_MAX || 50), windowMs: 60 * 60 * 1000 };
 
 const transport = process.env.SMTP_HOST
   ? nodemailer.createTransport({
@@ -36,12 +38,22 @@ const transport = process.env.SMTP_HOST
 
 // ---- rate limit (in memory; fine for one small server) ----
 const hits = new Map();
-function limited(ip) {
+let globalHits = [];
+function recent(ip) {
   const now = Date.now();
   const list = (hits.get(ip) || []).filter((t) => now - t < RATE.windowMs);
-  list.push(now);
   hits.set(ip, list);
-  return list.length > RATE.max;
+  globalHits = globalHits.filter((t) => now - t < GLOBAL_RATE.windowMs);
+  return list;
+}
+// Check without counting
+function limited(ip) {
+  return recent(ip).length >= RATE.max || globalHits.length >= GLOBAL_RATE.max;
+}
+// Count one message that is about to be sent
+function count(ip) {
+  recent(ip).push(Date.now());
+  globalHits.push(Date.now());
 }
 setInterval(() => {
   const now = Date.now();
@@ -109,7 +121,10 @@ const server = http.createServer(async (req, res) => {
   }
 
   const ip = req.headers['x-real-ip'] || req.socket.remoteAddress || 'unknown';
-  if (limited(ip)) return reply(req, res, 429, { error: 'Too many messages. Please try again later or call us.' });
+  if (limited(ip)) {
+    console.log(`[contact] rate limit reached for ${ip}`);
+    return reply(req, res, 429, { error: 'Too many messages. Please try again later or call us.' });
+  }
 
   let data;
   try {
@@ -133,6 +148,7 @@ const server = http.createServer(async (req, res) => {
   if (tooBig) return reply(req, res, 413, { error: 'The attachment is larger than 5 MB.' });
   if (badType) return reply(req, res, 415, { error: 'Attachments can be JPG, PNG, WebP, HEIC or PDF.' });
 
+  count(ip);
   const text = [
     `New message from the bakedinweston.com contact form`,
     ``,

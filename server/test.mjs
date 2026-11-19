@@ -40,6 +40,11 @@ try {
   r = await post({ email: 'a@b.com', ts: old }, { ip: '7.7.7.7', file: { name: 'photo.jpg', blob: new Blob([new Uint8Array(1000)], { type: 'image/jpeg' }) } });
   assert.equal(r.status, 200); assert.ok(log.includes('with attachment'));
 
+  // Failed tries (bad email) do not use up the limit
+  for (let i = 0; i < 8; i++) await post({ email: 'bad', ts: old }, { ip: '10.10.10.10' });
+  r = await post({ email: 'a@b.com', ts: old }, { ip: '10.10.10.10' });
+  assert.equal(r.status, 200);
+
   for (let i = 0; i < 5; i++) await post({ email: 'a@b.com', ts: old }, { ip: '9.9.9.9' });
   r = await post({ email: 'a@b.com', ts: old }, { ip: '9.9.9.9' });
   assert.equal(r.status, 429);
