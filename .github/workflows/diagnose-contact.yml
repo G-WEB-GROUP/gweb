@@ -31,3 +31,10 @@ jobs:
             "if [ \"\$(id -u)\" = 0 ]; then bash /tmp/biw-diagnose.sh; \
              elif sudo -n true 2>/dev/null; then sudo bash /tmp/biw-diagnose.sh; \
              else sudo -S -p '' bash /tmp/biw-diagnose.sh; fi; rm -f /tmp/biw-diagnose.sh" <<< "$SUDO_PASS"
+
+      - name: Check the staging site from outside
+        run: |
+          for u in http://bakedinweston.g-web.group/ https://bakedinweston.g-web.group/; do
+            printf '%-40s ' "$u"; curl -sS -o /dev/null -m 15 -w '%{http_code} %{redirect_url}\n' "$u" || true
+          done
+          echo | openssl s_client -connect bakedinweston.g-web.group:443 -servername bakedinweston.g-web.group 2>/dev/null | openssl x509 -noout -subject -issuer -enddate 2>/dev/null || echo "no certificate served for bakedinweston.g-web.group"

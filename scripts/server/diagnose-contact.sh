@@ -42,3 +42,12 @@ const tries = [
 echo; echo "== Last form log lines (emails hidden)"
 docker logs --tail 40 biw-contact 2>&1 | grep '\[contact\]' | tail -15 \
   | sed -E 's/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/<email>/g'
+
+echo; echo "== HTTPS certificates in the proxy (names and expiry)"
+PX="$(docker ps --format '{{.Names}}|{{.Ports}}' | awk -F'|' '$2 ~ /:443->443/ {print $1; exit}')"
+if [ -n "$PX" ]; then
+  docker exec "$PX" sh -c 'for d in /etc/letsencrypt/live/*/; do n=$(basename "$d"); [ -f "$d/fullchain.pem" ] && echo "$n: $(openssl x509 -enddate -noout -in "$d/fullchain.pem" 2>/dev/null || echo present)"; done' 2>/dev/null
+fi
+echo; echo "== Certificate retry log (last lines)"
+tail -n 5 /var/log/bakedinweston-cert.log 2>/dev/null || echo "(no retry log)"
+ls /etc/cron.d/ | grep bakedinweston || true
