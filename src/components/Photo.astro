@@ -30,7 +30,7 @@ if (img && !usable.includes(img.width) && usable.length < widths.length) usable.
       fallbackFormat="jpg"
       quality={72}
       loading={eager ? 'eager' : 'lazy'}
-      decoding={eager ? 'sync' : 'async'}
+      decoding="async"
       fetchpriority={eager ? 'high' : undefined}
       class={cls}
       pictureAttributes={{ class: cls, style: ratio ? `aspect-ratio:${ratio}` : undefined }}

@@ -31,8 +31,8 @@ const [kicker, title] = gallery.title.split(':').map((s) => s.trim());
               <Photo
                 file={it.file}
                 alt={it.alt}
-                widths={[320, 480, 720]}
-                sizes={i === 0 ? '(min-width: 900px) 50vw, 92vw' : '(min-width: 900px) 25vw, 46vw'}
+                widths={[240, 360, 480, 720]}
+                sizes={i === 0 ? '(min-width: 900px) 50vw, 46vw' : '(min-width: 900px) 25vw, 46vw'}
                 ratio="1 / 1"
               />
               <span class="visually-hidden">Open larger photo</span>
