@@ -26,7 +26,7 @@ docker exec -w /app biw-contact node -e '
 const nm = require("nodemailer");
 const base = { host: process.env.SMTP_HOST, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }, connectionTimeout: 15000, greetingTimeout: 15000 };
 const tries = [
-  ["configured", { port: Number(process.env.SMTP_PORT), secure: process.env.SMTP_SECURE === "true" }],
+  ["configured", { port: Number(process.env.SMTP_PORT) || (process.env.SMTP_SECURE === "true" ? 465 : 587), secure: process.env.SMTP_SECURE === "true" }],
   ["465 SSL", { port: 465, secure: true }],
   ["587 STARTTLS", { port: 587, secure: false }],
 ];

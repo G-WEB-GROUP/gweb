@@ -27,11 +27,14 @@ const MIN_FILL_MS = 3000;
 const RATE = { max: Number(process.env.RATE_MAX || 5), windowMs: 10 * 60 * 1000 };
 const GLOBAL_RATE = { max: Number(process.env.RATE_GLOBAL_MAX || 50), windowMs: 60 * 60 * 1000 };
 
+// SSL on (SMTP_SECURE=true) goes with port 465, STARTTLS with 587; used when SMTP_PORT is not set.
+const SECURE = process.env.SMTP_SECURE === 'true';
+const SMTP_PORT = Number(process.env.SMTP_PORT) || (SECURE ? 465 : 587);
 const transport = process.env.SMTP_HOST
   ? nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === 'true',
+      port: SMTP_PORT,
+      secure: SECURE,
       auth: process.env.SMTP_USER ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } : undefined,
     })
   : nodemailer.createTransport({ jsonTransport: true });
@@ -179,4 +182,6 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, HOST, () => console.log(`[contact] listening on ${HOST}:${PORT}, mail to ${MAIL_TO}`));
+server.listen(PORT, HOST, () =>
+  console.log(`[contact] listening on ${HOST}:${PORT}, mail to ${MAIL_TO}` + (process.env.SMTP_HOST ? ` via ${process.env.SMTP_HOST}:${SMTP_PORT}${SECURE ? ' (SSL)' : ''}` : ' (log only, no SMTP_HOST)')),
+);
