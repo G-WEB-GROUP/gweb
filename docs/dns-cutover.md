@@ -37,15 +37,18 @@ Nothing in DNS is changed without the owner's go-ahead.
         `sudo certbot certonly --webroot -w /var/www/letsencrypt -d bakedinweston.com -d www.bakedinweston.com --deploy-hook "systemctl reload nginx"`
         and switch to `bakedinweston.conf`.
 
-## 2. Switch (≈ 15 minutes)
+## 2. Switch (≈ 15 minutes) — server 91.192.105.75 (Docker proxy, same server as Horpyna)
 
-- [ ] On the server: disable `bakedinweston-test.conf`; enable `bakedinweston.conf` (option A, certificate ready)
-      or `bakedinweston-http.conf` (option B); `sudo nginx -t && sudo systemctl reload nginx`.
-- [ ] GoDaddy DNS — edit **only**:
-      - `A @` → **new server IP**
-      - `AAAA @` → new IPv6, or delete it if the server has no IPv6
-      - `CNAME www` → `bakedinweston.com.` (or `@`)
-- [ ] Do **not** use "Disconnect domain" / "Connect to website" buttons in Website Builder — edit the records directly.
+- [ ] **Before DNS:** GitHub → Actions → **Setup staging server** → `profile` = **production** → Run.
+      It adds `bakedinweston-prod.conf` to the proxy (bakedinweston.com + www), checked with `nginx -t`.
+      The certificate step fails at this point (DNS still points to GoDaddy) — expected; the run ends green
+      with a warning and the server retries hourly.
+- [ ] GoDaddy → DNS: edit **only** `A @` — value `WebsiteBuilder Site` → **`91.192.105.75`**, TTL 600 s.
+      `CNAME www → bakedinweston.com.` stays as it is. **Do not** change nameservers (NS) and do not touch
+      MX, TXT (SPF/DMARC/verification), autodiscover or `_domainkey` records.
+- [ ] Right after saving: run **Setup staging server** with `profile` = **production** again → certificate is
+      issued and HTTPS is on (otherwise the hourly job does it within the hour).
+- [ ] Do **not** use "Disconnect domain" / "Connect to website" buttons in Website Builder — edit the record directly.
 
 ## 3. Check (right after, and again the next day)
 

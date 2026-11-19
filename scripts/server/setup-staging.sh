@@ -15,6 +15,20 @@
 set -euo pipefail
 
 DOMAIN="${DOMAIN:-bakedinweston.g-web.group}"
+ALIASES="${ALIASES:-}"                         # extra names on the same certificate, e.g. www.bakedinweston.com
+PROFILE="${PROFILE:-staging}"                  # staging | production (production: indexable, www -> apex)
+case "$PROFILE" in
+  staging)    SUFFIX="";      TEMPLATE=proxy-site.conf ;;
+  production) SUFFIX="-prod"; TEMPLATE=proxy-site-prod.conf ;;
+  *) echo "PROFILE must be staging or production" >&2; exit 1 ;;
+esac
+NAMES="$DOMAIN${ALIASES:+ $ALIASES}"
+WWW="${ALIASES%% *}"
+PROXY_FILE_NAME="bakedinweston${SUFFIX}.conf"
+FULL_CONF="/opt/bakedinweston/proxy-full${SUFFIX}.conf"
+CERT_ENV="/etc/bakedinweston/cert${SUFFIX}.env"
+CRON_RETRY="/etc/cron.d/bakedinweston-cert${SUFFIX}-retry"
+CRON_RENEW="/etc/cron.d/bakedinweston-cert${SUFFIX}"
 DEPLOY_USER="${DEPLOY_USER:?Set DEPLOY_USER (the SSH user that will deploy)}"
 SRC="$(cd "$(dirname "$0")" && pwd)"          # uploaded bundle: deploy/, server/, scripts
 TEST_MODE="${BIW_TEST:-}"                      # local testing: no real certificate / systemd
@@ -192,9 +206,11 @@ setup_docker() {
   le_src="$(vol "$le")"; web_src="$(vol "$web")"
   echo "proxy conf.d: $confd | certificates: $le_src | ACME webroot: $acme_root ($web_src) | network: $net"
 
-  if grep -rqs "server_name[^;]*\b${DOMAIN//./\\.}\b" "$confd" --exclude='bakedinweston*'; then
-    die "the proxy already has a config for $DOMAIN. No changes made."
-  fi
+  for n in $NAMES; do
+    if grep -rqsE "server_name[^;]*[[:space:]]${n//./\\.}([[:space:];]|$)" "$confd" --exclude='bakedinweston*'; then
+      die "the proxy already has a config for $n. No changes made."
+    fi
+  done
   for c in biw-web biw-contact; do
     if docker ps -a --format '{{.Names}}' | grep -qx "$c" \
        && [ "$(docker inspect "$c" --format '{{index .Config.Labels "biw.owner"}}')" != bakedinweston ]; then
@@ -227,10 +243,10 @@ setup_docker() {
   docker exec biw-web nginx -t >/dev/null 2>&1 || { docker logs biw-web 2>&1 | tail -5; die "biw-web nginx config failed"; }
   docker ps --filter label=biw.owner=bakedinweston --format '{{.Names}}: {{.Status}}'
 
-  say "Proxy config ($confd/bakedinweston.conf)"
-  local target="$confd/bakedinweston.conf"
+  say "Proxy config ($confd/$PROXY_FILE_NAME, $PROFILE)"
+  local target="$confd/$PROXY_FILE_NAME"
   render() {
-    sed -e "s#__DOMAIN__#$DOMAIN#g" -e "s#__ACME_ROOT__#$acme_root#g" -e "s#__PROXY__#$px#g" "$SRC/deploy/docker/proxy-site.conf"
+    sed -e "s#__DOMAIN__#$DOMAIN#g" -e "s#__WWW__#$WWW#g" -e "s#__ACME_ROOT__#$acme_root#g" -e "s#__PROXY__#$px#g" "$SRC/deploy/docker/$TEMPLATE"
   }
   apply_proxy_conf() {   # $1 = file; check with nginx -t, keep only if OK
     local backup=
@@ -248,10 +264,10 @@ setup_docker() {
   if [ "$have_cert" != yes ]; then
     # Step 1: HTTP only — the site over http + the ACME challenge, so the certificate can be issued
     render | awk '/#BIW_HTTPS_START/{exit} {print}' \
-      | sed 's#^    location / { return 301 https://$host$request_uri; }   \#BIW_HTTP_LOCATION#    location / { resolver 127.0.0.11 valid=30s ipv6=off; set $biw_upstream http://biw-web:80; proxy_pass $biw_upstream; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; client_max_body_size 6m; }#' \
+      | sed 's#^.*\#BIW_HTTP_LOCATION$#    location / { resolver 127.0.0.11 valid=30s ipv6=off; set $biw_upstream http://biw-web:80; proxy_pass $biw_upstream; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; client_max_body_size 6m; }#' \
       > /tmp/biw-proxy-http.conf
     # Until there is a certificate, refuse HTTPS for this name (otherwise the proxy would show its default site)
-    printf '\nserver {\n    listen 443 ssl;\n    server_name %s;\n    ssl_reject_handshake on;\n}\n' "$DOMAIN" >> /tmp/biw-proxy-http.conf
+    printf '\nserver {\n    listen 443 ssl;\n    server_name %s;\n    ssl_reject_handshake on;\n}\n' "$NAMES" >> /tmp/biw-proxy-http.conf
     grep -q 'proxy_pass $biw_upstream' /tmp/biw-proxy-http.conf || die "could not build the HTTP-only proxy config"
     apply_proxy_conf /tmp/biw-proxy-http.conf
 
@@ -264,10 +280,11 @@ setup_docker() {
         "mkdir -p /etc/letsencrypt/live/$DOMAIN && cp /src/*.pem /etc/letsencrypt/live/$DOMAIN/"
       rm -rf "$tmpc"
     else
-      local try
+      local try dargs=""
+      for n in $NAMES; do dargs="$dargs -d $n"; done
       for try in 1 2 3; do
         if docker run --rm -v "$le_src:/etc/letsencrypt" -v "$web_src:$acme_root" certbot/certbot \
-             certonly --webroot -w "$acme_root" -d "$DOMAIN" \
+             certonly --webroot -w "$acme_root" $dargs --cert-name "$DOMAIN" \
              --non-interactive --agree-tos --register-unsafely-without-email; then
           break
         fi
@@ -277,15 +294,20 @@ setup_docker() {
     have_cert="$(docker exec "$px" sh -c "[ -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ] && echo yes || true")"
   fi
   mkdir -p /opt/bakedinweston
-  render > /opt/bakedinweston/proxy-full.conf
+  render > "$FULL_CONF"
   if [ "$have_cert" = yes ]; then
-    apply_proxy_conf /opt/bakedinweston/proxy-full.conf
+    apply_proxy_conf "$FULL_CONF"
     CERT_STATE=ok
-    rm -f /etc/cron.d/bakedinweston-cert-retry
+    rm -f "$CRON_RETRY"
   else
     # Keep going: the site works over http; the server keeps trying hourly and enables HTTPS by itself
-    cat > /etc/bakedinweston/cert.env <<ENV
+    cat > "$CERT_ENV" <<ENV
 DOMAIN=$DOMAIN
+NAMES="$NAMES"
+PROXY_FILE=$PROXY_FILE_NAME
+FULL_CONF=$FULL_CONF
+CRON_RETRY=$CRON_RETRY
+CRON_RENEW=$CRON_RENEW
 PX=$px
 LE_SRC=$le_src
 WEB_SRC=$web_src
@@ -293,15 +315,15 @@ ACME_ROOT=$acme_root
 CONFD=$confd
 ENV
     install -m 755 "$SRC/biw-cert-retry" /usr/local/bin/biw-cert-retry
-    echo "23 * * * * root /usr/local/bin/biw-cert-retry" > /etc/cron.d/bakedinweston-cert-retry
+    echo "23 * * * * root /usr/local/bin/biw-cert-retry $CERT_ENV" > "$CRON_RETRY"
     warn "no certificate yet — the site works over http://$DOMAIN; the server retries every hour and turns on HTTPS by itself."
     echo "::warning::HTTPS certificate not issued yet. The site works over http://$DOMAIN. The server retries every hour (log: /var/log/bakedinweston-cert.log) and enables HTTPS automatically."
   fi
 
   if [ -z "$TEST_MODE" ] && [ -n "$CERT_STATE" ]; then
     # Renew our certificate weekly (only ours) and reload the proxy
-    cat > /etc/cron.d/bakedinweston-cert <<CRON
-# Renew the bakedinweston staging certificate (added by setup-staging.sh)
+    cat > "$CRON_RENEW" <<CRON
+# Renew the bakedinweston $PROFILE certificate (added by setup-staging.sh)
 17 4 * * 1 root docker run --rm -v $le_src:/etc/letsencrypt -v $web_src:$acme_root certbot/certbot renew --cert-name $DOMAIN -q && docker exec $px nginx -s reload
 CRON
   fi
@@ -318,4 +340,4 @@ if [ "$DEPLOY_USER" != root ]; then
 fi
 
 say "Done"
-if [ -n "$CERT_STATE" ]; then echo "Preview: https://$DOMAIN"; else echo "Preview: http://$DOMAIN (HTTPS after the certificate step succeeds)"; fi
+if [ -n "$CERT_STATE" ]; then echo "Site: https://$DOMAIN"; else echo "Site: http://$DOMAIN (HTTPS after the certificate step succeeds)"; fi

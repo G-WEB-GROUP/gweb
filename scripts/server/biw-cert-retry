@@ -1,14 +1,21 @@
 #!/bin/sh
 # Hourly (cron) until it succeeds: get the staging HTTPS certificate with the certbot image,
 # then switch the proxy to the HTTPS config. Installed by setup-staging.sh (Docker layout).
-# Settings: /etc/bakedinweston/cert.env (DOMAIN PX LE_SRC WEB_SRC ACME_ROOT CONFD)
+# Settings file (arg 1, default /etc/bakedinweston/cert.env): DOMAIN NAMES PROXY_FILE FULL_CONF
+# CRON_RETRY CRON_RENEW PX LE_SRC WEB_SRC ACME_ROOT CONFD
 set -eu
-. /etc/bakedinweston/cert.env
+. "${1:-/etc/bakedinweston/cert.env}"
+NAMES="${NAMES:-$DOMAIN}"
+PROXY_FILE="${PROXY_FILE:-bakedinweston.conf}"
+FULL_CONF="${FULL_CONF:-/opt/bakedinweston/proxy-full.conf}"
+CRON_RETRY="${CRON_RETRY:-/etc/cron.d/bakedinweston-cert-retry}"
+CRON_RENEW="${CRON_RENEW:-/etc/cron.d/bakedinweston-cert}"
+DARGS=""; for n in $NAMES; do DARGS="$DARGS -d $n"; done
 log() { echo "$(date -u +%FT%TZ) $*" >> /var/log/bakedinweston-cert.log; }
 
 if ! docker exec "$PX" test -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem"; then
   if ! docker run --rm -v "$LE_SRC:/etc/letsencrypt" -v "$WEB_SRC:$ACME_ROOT" certbot/certbot \
-        certonly --webroot -w "$ACME_ROOT" -d "$DOMAIN" \
+        certonly --webroot -w "$ACME_ROOT" $DARGS --cert-name "$DOMAIN" \
         --non-interactive --agree-tos --register-unsafely-without-email -q >/dev/null 2>&1; then
     log "certificate for $DOMAIN not issued yet, will retry"
     exit 0
@@ -16,15 +23,15 @@ if ! docker exec "$PX" test -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem"; th
 fi
 
 # Certificate exists: switch to the HTTPS config, but only if nginx accepts it
-cp "$CONFD/bakedinweston.conf" /tmp/biw-prev.conf
-cp /opt/bakedinweston/proxy-full.conf "$CONFD/bakedinweston.conf"
+cp "$CONFD/$PROXY_FILE" /tmp/biw-prev.conf
+cp "$FULL_CONF" "$CONFD/$PROXY_FILE"
 if docker exec "$PX" nginx -t >/dev/null 2>&1; then
   docker exec "$PX" nginx -s reload
   echo "17 4 * * 1 root docker run --rm -v $LE_SRC:/etc/letsencrypt -v $WEB_SRC:$ACME_ROOT certbot/certbot renew --cert-name $DOMAIN -q && docker exec $PX nginx -s reload" \
-    > /etc/cron.d/bakedinweston-cert
-  rm -f /etc/cron.d/bakedinweston-cert-retry
+    > "$CRON_RENEW"
+  rm -f "$CRON_RETRY"
   log "certificate for $DOMAIN issued, HTTPS enabled"
 else
-  cp /tmp/biw-prev.conf "$CONFD/bakedinweston.conf"
+  cp /tmp/biw-prev.conf "$CONFD/$PROXY_FILE"
   log "HTTPS config rejected by nginx -t, kept the http config"
 fi

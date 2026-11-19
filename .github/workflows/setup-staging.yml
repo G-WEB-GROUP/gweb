@@ -12,8 +12,13 @@ name: Setup staging server
 on:
   workflow_dispatch:
     inputs:
+      profile:
+        description: 'staging = preview address below (noindex); production = bakedinweston.com + www'
+        default: staging
+        type: choice
+        options: [staging, production]
       domain:
-        description: 'Preview address (its DNS must point to the server)'
+        description: 'Preview address for staging (its DNS must point to the server)'
         default: bakedinweston.g-web.group
         type: string
 
@@ -26,7 +31,9 @@ jobs:
       USER_NAME: ${{ secrets.STAGING_USER }}
       KEY: ${{ secrets.STAGING_SSH_KEY }}
       SUDO_PASS: ${{ secrets.STAGING_PASSWORD }}
-      DOMAIN: ${{ inputs.domain || 'bakedinweston.g-web.group' }}
+      PROFILE: ${{ inputs.profile || 'staging' }}
+      DOMAIN: ${{ inputs.profile == 'production' && 'bakedinweston.com' || inputs.domain || 'bakedinweston.g-web.group' }}
+      ALIASES: ${{ inputs.profile == 'production' && 'www.bakedinweston.com' || '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +43,8 @@ jobs:
             [ -n "${!v}" ] || { echo "::error::Secret missing: STAGING_HOST, STAGING_USER and STAGING_SSH_KEY are required"; exit 1; }
           done
           [[ "$DOMAIN" =~ ^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]] || { echo "::error::Invalid domain: $DOMAIN"; exit 1; }
+          [[ "$PROFILE" =~ ^(staging|production)$ ]] || { echo "::error::Invalid profile"; exit 1; }
+          echo "Setting up $PROFILE: $DOMAIN $ALIASES"
 
       - name: SSH key
         run: |
@@ -63,7 +72,7 @@ jobs:
         run: |
           ssh "$USER_NAME@$HOST" \
             "set -e; rm -rf /tmp/biw-setup && mkdir -p /tmp/biw-setup && tar xzf /tmp/biw-setup.tgz -C /tmp/biw-setup && rm /tmp/biw-setup.tgz; \
-             if [ \"\$(id -u)\" = 0 ]; then DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
-             elif sudo -n true 2>/dev/null; then sudo env DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
-             else sudo -S -p '' env DOMAIN=$DOMAIN DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; fi; \
+             if [ \"\$(id -u)\" = 0 ]; then PROFILE=$PROFILE DOMAIN=$DOMAIN ALIASES=$ALIASES DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
+             elif sudo -n true 2>/dev/null; then sudo env PROFILE=$PROFILE DOMAIN=$DOMAIN ALIASES=$ALIASES DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; \
+             else sudo -S -p '' env PROFILE=$PROFILE DOMAIN=$DOMAIN ALIASES=$ALIASES DEPLOY_USER=$USER_NAME bash /tmp/biw-setup/setup-staging.sh; fi; \
              rm -rf /tmp/biw-setup" <<< "$SUDO_PASS"
