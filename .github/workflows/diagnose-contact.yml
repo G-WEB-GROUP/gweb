@@ -43,6 +43,7 @@ jobs:
             printf '%-42s ' "$u"; curl -sS -o /dev/null -m 15 -w '%{http_code} %{redirect_url}\n' "$u" 2>&1 || true
           done
           echo "X-Robots on bakedinweston.com: $(curl -sSI -m 15 https://bakedinweston.com/ 2>/dev/null | grep -i x-robots || echo none)"
+          echo "Emails on the live home page: $(curl -sS -m 15 https://bakedinweston.com/ | grep -o 'mailto:[^"]*' | sort | uniq -c | tr '\n' ' ')"
           for h in bakedinweston.com bakedinweston.g-web.group; do
             echo "-- certificate $h"
             echo | openssl s_client -connect $h:443 -servername $h 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName -enddate 2>/dev/null || echo "no certificate served for $h"
